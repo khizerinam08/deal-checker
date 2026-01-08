@@ -1,0 +1,44 @@
+.container {
+  padding: 2rem; /* p-8 */
+}
+
+.title {
+  font-size: 1.5rem; /* text-2xl */
+  font-weight: 700; /* font-bold */
+  margin-bottom: 1.5rem; /* mb-6 */
+}
+
+.flex {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* gap-4 */
+}
+
+/* Responsive breakpoint for tablets/desktop */
+@media (min-width: 768px) {
+  .flex {
+    
+  }
+}
+
+.card {
+  border: 1px solid #e5e7eb; /* border */
+  padding: 1rem; /* p-4 */
+  border-radius: 0.5rem; /* rounded-lg */
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1); /* shadow */
+}
+
+.dealName {
+  font-weight: 700;
+  font-size: 1.125rem; /* text-lg */
+}
+
+.price {
+  color: #16a34a; /* text-green-600 */
+  font-weight: 600; /* font-semibold */
+}
+
+.description {
+  font-size: 0.875rem; /* text-sm */
+  color: #6b7280; /* text-gray-500 */
+}
