@@ -18,6 +18,7 @@
         ],
         "satiety_tier": "Standard Meal",
         "image_url": "https://www.dominos.com.pk/images/5e4bc3d0-c1f4-11f0-af5f-eb951f734cf1-More-Value-Medium-2025-11-15072614.jpg",
+        "product_url": "https://www.dominos.com.pk/menu#combo_EPICMediumDeal_224",
         "source": "Dominos PK"
     },
     {
@@ -39,6 +40,7 @@
         ],
         "satiety_tier": "Heavy Meal (Sharing)",
         "image_url": "https://www.dominos.com.pk/images/31dc6650-cf01-11f0-889d-554d5fcd3db8-Epic-Double-Medium-2025-12-01220048.jpg",
+        "product_url": "https://www.dominos.com.pk/menu#combo_EPICDoubleMedium_254",
         "source": "Dominos PK"
     },
     {
@@ -60,6 +62,7 @@
         ],
         "satiety_tier": "Heavy Meal (Sharing)",
         "image_url": "https://www.dominos.com.pk/images/6131f3d0-c1f4-11f0-aa26-53acaeb3303d-More-Value-Large-2025-11-15072619.jpg",
+        "product_url": "https://www.dominos.com.pk/menu#combo_EPICLargeDeal_225",
         "source": "Dominos PK"
     },
     {
@@ -81,6 +84,7 @@
         ],
         "satiety_tier": "Heavy Meal (Sharing)",
         "image_url": "https://www.dominos.com.pk/images/6131f3d0-c1f4-11f0-aa26-53acaeb3303d-More-Value-Double-Large-2025-11-15072619.jpg",
+        "product_url": "https://www.dominos.com.pk/menu#combo_EPICDoubleLarge_255",
         "source": "Dominos PK"
     },
     {
@@ -107,6 +111,7 @@
         ],
         "satiety_tier": "Heavy Meal (Sharing)",
         "image_url": "https://www.dominos.com.pk/images/31dc6650-cf01-11f0-889d-554d5fcd3db8-Gathering-for-4-50kb-2025-12-01220048.jpg",
+        "product_url": "https://www.dominos.com.pk/menu#combo_GatheringForFour_258",
         "source": "Dominos PK"
     },
     {
@@ -133,6 +138,7 @@
         ],
         "satiety_tier": "Heavy Meal (Sharing)",
         "image_url": "https://www.dominos.com.pk/images/668f90a0-715c-11f0-87f8-ed6612fe6870-Gathering-for-6-2025-08-04175652.jpg",
+        "product_url": "https://www.dominos.com.pk/menu#combo_GatheringForSix_259",
         "source": "Dominos PK"
     },
     {
@@ -159,6 +165,7 @@
         ],
         "satiety_tier": "Heavy Meal (Sharing)",
         "image_url": "https://www.dominos.com.pk/images/31dc3f40-cf01-11f0-9f6c-b5f03bfb087b-Pizza-n-Wing-50kb-2025-12-01220048.jpg",
+        "product_url": "https://www.dominos.com.pk/menu#combo_PizzaNWings_272",
         "source": "Dominos PK"
     },
     {
@@ -180,6 +187,7 @@
         ],
         "satiety_tier": "Snack / Light",
         "image_url": "https://www.dominos.com.pk/images/3afdb9e0-a0ef-11f0-ba34-83c0e14f2dfc-Pizza-RollSting-50kb-2025-10-04065619.jpg",
+        "product_url": "https://www.dominos.com.pk/menu#combo_LoadedPizzaRoll+Dip+345mlDrink_270",
         "source": "Dominos PK"
     },
     {
@@ -201,6 +209,7 @@
         ],
         "satiety_tier": "Heavy Meal (Sharing)",
         "image_url": "https://www.dominos.com.pk/images/3f593cc0-591a-11f0-bb47-e96e556c89da-small-pizzas-icons-2025-07-04210251.jpg",
+        "product_url": "https://www.dominos.com.pk/menu#combo_SmallPizzasSpecial_214",
         "source": "Dominos PK"
     },
     {
@@ -227,6 +236,7 @@
         ],
         "satiety_tier": "Heavy Meal (Sharing)",
         "image_url": "https://www.dominos.com.pk/images/604c63f0-b01b-11f0-a868-5379ebd69104-2-Loaded-for-2-50kb-2025-10-23142007.jpg",
+        "product_url": "https://www.dominos.com.pk/menu#combo_TooLoadedForTwo_283",
         "source": "Dominos PK"
     },
     {
@@ -248,6 +258,7 @@
         ],
         "satiety_tier": "Snack / Light",
         "image_url": "https://www.dominos.com.pk/images/3f5963d0-591a-11f0-aab7-d5d4a2aef323-Meltz-Drink-2025-07-04210251.jpg",
+        "product_url": "https://www.dominos.com.pk/menu#combo_Meltz+345mlDrink_242",
         "source": "Dominos PK"
     },
     {
@@ -264,6 +275,7 @@
         ],
         "satiety_tier": "Snack / Light",
         "image_url": "https://www.dominos.com.pk/images/9ddc97c0-887b-11f0-98a1-ad98994822e0-CheeseBurst50-2025-09-03040815.jpg",
+        "product_url": "https://www.dominos.com.pk/menu#combo_CheeseBurstLarge_227",
         "source": "Dominos PK"
     },
     {
@@ -280,6 +292,7 @@
         ],
         "satiety_tier": "Snack / Light",
         "image_url": "https://www.dominos.com.pk/images/5fb0e9b0-887b-11f0-bf20-79fdab845f60-DoubleMelt50-2025-09-03040631.jpg",
+        "product_url": "https://www.dominos.com.pk/menu#combo_DoubleMeltDealLarge_122",
         "source": "Dominos PK"
     },
     {
@@ -301,6 +314,7 @@
         ],
         "satiety_tier": "Heavy Meal (Sharing)",
         "image_url": "https://www.dominos.com.pk/images/668fb7b0-715c-11f0-86dc-479f755ff2e1-Superloaded-deal-2025-08-04175652.jpg",
+        "product_url": "https://www.dominos.com.pk/menu#combo_SuperLoadedLarge_229",
         "source": "Dominos PK"
     },
     {
@@ -327,6 +341,7 @@
         ],
         "satiety_tier": "Standard Meal",
         "image_url": "https://www.dominos.com.pk/images/4bce9590-5924-11f0-8431-8133e66c512f-mybox-pizza-1-side-2025-07-04221447.jpg",
+        "product_url": "https://www.dominos.com.pk/menu#combo_MyBoxPizza+1Side_238",
         "source": "Dominos PK"
     },
     {
@@ -358,6 +373,7 @@
         ],
         "satiety_tier": "Standard Meal",
         "image_url": "https://www.dominos.com.pk/images/3f593cc0-591a-11f0-bb47-e96e556c89da-mybox-pizza-1-side-drink-2025-07-04210251.jpg",
+        "product_url": "https://www.dominos.com.pk/menu#combo_MyBoxPizza+1Side+Drink_239",
         "source": "Dominos PK"
     },
     {
@@ -384,6 +400,7 @@
         ],
         "satiety_tier": "Standard Meal",
         "image_url": "https://www.dominos.com.pk/images/36db1480-596d-11f0-844b-87be54638779-mybox-pizza-2-sides-2025-07-05065645.jpg",
+        "product_url": "https://www.dominos.com.pk/menu#combo_MyBoxPizza+2Sides_182",
         "source": "Dominos PK"
     },
     {
@@ -415,6 +432,7 @@
         ],
         "satiety_tier": "Heavy Meal (Sharing)",
         "image_url": "https://www.dominos.com.pk/images/3f5963d0-591a-11f0-aab7-d5d4a2aef323-Mybox-Pizza-2-side-drink-2025-07-04210251.jpg",
+        "product_url": "https://www.dominos.com.pk/menu#combo_MyBoxPizza+2SideswithDrink_204",
         "source": "Dominos PK"
     },
     {
@@ -446,6 +464,7 @@
         ],
         "satiety_tier": "Heavy Meal (Sharing)",
         "image_url": "https://www.dominos.com.pk/images/3f5963d0-591a-11f0-aab7-d5d4a2aef323-mybox-meltz-1-side-2025-07-04210251.jpg",
+        "product_url": "https://www.dominos.com.pk/menu#combo_MyBoxMeltz+1Side+Dip_209",
         "source": "Dominos PK"
     },
     {
@@ -482,6 +501,7 @@
         ],
         "satiety_tier": "Heavy Meal (Sharing)",
         "image_url": "https://www.dominos.com.pk/images/3f593cc0-591a-11f0-b3ed-e56db109ea78-mybox-meltz-1-side-drink-2025-07-04210251.jpg",
+        "product_url": "https://www.dominos.com.pk/menu#combo_MyBoxMeltz+1Side+Dip+Drink_211",
         "source": "Dominos PK"
     },
     {
@@ -513,6 +533,7 @@
         ],
         "satiety_tier": "Heavy Meal (Sharing)",
         "image_url": "https://www.dominos.com.pk/images/36d4fa00-596d-11f0-a355-9be03822ebaf-mybox-meltz-2-side-2025-07-05065645.jpg",
+        "product_url": "https://www.dominos.com.pk/menu#combo_MyBoxMeltz+2Sides+Dip_240",
         "source": "Dominos PK"
     },
     {
@@ -549,6 +570,7 @@
         ],
         "satiety_tier": "Heavy Meal (Sharing)",
         "image_url": "https://www.dominos.com.pk/images/3f593cc0-591a-11f0-bb47-e96e556c89da-mybox-meltz-2-side-drink-2025-07-04210251.jpg",
+        "product_url": "https://www.dominos.com.pk/menu#combo_MyBoxMeltz+2Sides+Dip+Drink_241",
         "source": "Dominos PK"
     },
     {
@@ -580,6 +602,7 @@
         ],
         "satiety_tier": "Heavy Meal (Sharing)",
         "image_url": "https://www.dominos.com.pk/images/3f5963d0-591a-11f0-aab7-d5d4a2aef323-Mybox-Pizza-Roll-1-side-2025-07-04210251.jpg",
+        "product_url": "https://www.dominos.com.pk/menu#combo_MyBoxLoadedPizzaRoll+1Side+Dip_265",
         "source": "Dominos PK"
     },
     {
@@ -616,6 +639,7 @@
         ],
         "satiety_tier": "Heavy Meal (Sharing)",
         "image_url": "https://www.dominos.com.pk/images/36d4abe0-596d-11f0-bf9d-4ffb66fba2c4-Mybox-Pizza-Roll-1-side-drink-2025-07-05065645.jpg",
+        "product_url": "https://www.dominos.com.pk/menu#combo_MyBoxLoadedPizzaRoll+1Side+Dip+Drink_266",
         "source": "Dominos PK"
     },
     {
@@ -647,6 +671,7 @@
         ],
         "satiety_tier": "Heavy Meal (Sharing)",
         "image_url": "https://www.dominos.com.pk/images/3f593cc0-591a-11f0-bb47-e96e556c89da-Mybox-Pizzaroll-2-side-2025-07-04210251.jpg",
+        "product_url": "https://www.dominos.com.pk/menu#combo_MyBoxLoadedPizzaRoll+2Sides+Dip_267",
         "source": "Dominos PK"
     },
     {
@@ -683,6 +708,7 @@
         ],
         "satiety_tier": "Heavy Meal (Sharing)",
         "image_url": "https://www.dominos.com.pk/images/36db1480-596d-11f0-99b9-53c8b7f1ae77-Mybox-Pizza--roll-2-side-drink-2025-07-05065645.jpg",
+        "product_url": "https://www.dominos.com.pk/menu#combo_MyBoxLoadedPizzaRoll+2Sides+Dip+Drink_268",
         "source": "Dominos PK"
     }
 ]

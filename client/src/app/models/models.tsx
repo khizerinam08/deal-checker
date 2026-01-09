@@ -25,6 +25,7 @@ export interface PizzaDeal {
   items_breakdown: ItemBreakdown[];
   satiety_tier: "Snack / Light" | "Standard Meal" | "Heavy Meal (Sharing)"; 
   image_url: string | null;
+  product_url: string,
   source: string;
 }
 

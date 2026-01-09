@@ -19,6 +19,10 @@ async function getDeals(): Promise<PizzaDeal[]> {
 export default async function DominosDeals(){
     
     const deals: PizzaDeal[] = await getDeals();
+    deals.sort((a, b) => {
+  // Simple subtraction for numerical sorting
+  return a.price_pkr - b.price_pkr;
+});
     return (
     <main className={styles.container}>
       <h1 className={styles.title}>Dominos Deals</h1>
@@ -29,11 +33,11 @@ export default async function DominosDeals(){
             <Image 
                     src={deal.image_url || '/placeholder-image.jpg'} // Fallback if null
                     alt={deal.deal_name}
-                    width={500}
+                    width={436}
                     height={300}
                     className="rounded-lg"
             />
-            <h2 className={styles.dealName}>{deal.deal_name}</h2>
+            <h2 className={styles.dealName}><a href={deal.product_url}>{deal.deal_name}</a></h2>
             <p className={styles.price}>Rs. {deal.price_pkr}</p>
             <p className={styles.description}>{deal.description}</p>
           </div>

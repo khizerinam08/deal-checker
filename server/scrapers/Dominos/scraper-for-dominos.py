@@ -222,6 +222,7 @@ def scrape_dominos():
                 price_text = item.get('price', '')
                 description = item.get('description', '')
                 image_url = item.get('imageUrl')
+                href = item.get('href', '')
                 
                 if not title or not price_text or "Rs." not in price_text:
                     continue
@@ -237,6 +238,9 @@ def scrape_dominos():
 
                 # Extract satiety score and items breakdown
                 satiety_score, items_breakdown, satiety_tier = extract_items_and_score(title, description)
+                
+                # Construct full product URL from href
+                product_url = f"{URL}{href}" if href else None
 
                 # Apply Schema with enhanced satiety data
                 deal_obj = {
@@ -247,6 +251,7 @@ def scrape_dominos():
                     "items_breakdown": items_breakdown,       # List of extracted items with individual scores
                     "satiety_tier": satiety_tier,             # Human-readable tier
                     "image_url": image_url,
+                    "product_url": product_url,               # Link to the deal on Dominos website
                     "source": "Dominos PK"
                 }
                 
