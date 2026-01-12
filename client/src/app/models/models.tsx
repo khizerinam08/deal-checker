@@ -18,14 +18,15 @@ export interface ItemBreakdown {
 }
 
 export interface PizzaDeal {
-  deal_name: string;
-  price_pkr: number;
+  id: number;
+  dealName: string;
+  pricePkr: number;
   description: string;
-  satiety_score: number;
+  satietyScore: number;
   items_breakdown: ItemBreakdown[];
-  satiety_tier: "Snack / Light" | "Standard Meal" | "Heavy Meal (Sharing)"; 
-  image_url: string | null;
-  product_url: string,
+  satietyTier: "Snack / Light" | "Standard Meal" | "Heavy Meal (Sharing)"; 
+  imageUrl: string | null;
+  productUrl: string;
   source: string;
 }
 

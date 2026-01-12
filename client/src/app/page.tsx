@@ -1,8 +1,13 @@
-
+import Link from "next/link";
 
 
 export default function Home() {
   return (
-    <h1>Hello</h1>
+  <div> 
+    
+    <Link href='/dominos-deals'>
+    <h1>Dominos</h1>
+    </Link>
+    </div>
   );
 }

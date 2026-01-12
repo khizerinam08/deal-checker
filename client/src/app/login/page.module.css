@@ -1,0 +1,49 @@
+/* login.module.css */
+.container {
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+.inputField {
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+  display: block;
+  margin-bottom: 0.5rem;
+  border-radius: 4px; /* Slight roundness */
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.loginBtn {
+  background-color: #3b82f6; /* Blue */
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 999px; /* Pill shape */
+  cursor: pointer;
+}
+
+.signupBtn {
+  background-color: #10b981; /* Green */
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 999px; /* Pill shape */
+  cursor: pointer;
+}
+
+/* Hover effects */
+.loginBtn:hover, .signupBtn:hover {
+  opacity: 0.9;
+}

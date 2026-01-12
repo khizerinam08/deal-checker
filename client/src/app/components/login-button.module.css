@@ -1,0 +1,58 @@
+/* Container holds everything together */
+.container {
+    position: relative; /* This makes the dropdown stick to this container */
+    display: inline-block;
+}
+
+/* The Round User Icon Button */
+.iconButton {
+    background-color: #f0f0f0; /* Light grey background */
+    border-radius: 50%;        /* Perfect circle */
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    color: #333;
+}
+
+.iconButton:hover {
+    background-color: #e0e0e0;
+}
+
+/* The Dropdown Box */
+.dropdown {
+    position: absolute;
+    top: 120%; /* Push it slightly below the icon */
+    right: 0;  /* Align it to the right edge of the icon */
+    
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    
+    min-width: 150px; /* Don't let it get too skinny */
+    z-index: 100;     /* Ensure it sits on top of other content */
+    overflow: hidden; /* Clips corners for the items inside */
+    padding: 0.5rem 0;
+}
+
+/* Items inside the dropdown */
+.menuItem {
+    display: block;
+    width: 100%;
+    padding: 0.8rem 1rem;
+    text-align: left;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+}
+
+.menuItem:hover {
+    background-color: #f5f5f5; /* Light grey hover effect */
+}

@@ -7,6 +7,61 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
+import psycopg2
+from psycopg2.extras import execute_values
+import os
+from dotenv import load_dotenv
+
+load_dotenv() # Ensure you have DATABASE_URL in a .env file
+
+def save_to_db(deals_data):
+    conn = None
+    try:
+        # 1. Connect to Neon
+        conn = psycopg2.connect(os.getenv("DATABASE_URL"))
+        cur = conn.cursor()
+
+        print(f"🚀 Connecting to Neon to sync {len(deals_data)} deals...")
+
+        # 2. Clear old deals (Optional: depending on if you want to refresh or append)
+        cur.execute("TRUNCATE TABLE deals RESTART IDENTITY CASCADE;")
+
+        for deal in deals_data:
+            # 3. Insert Parent Deal
+            cur.execute("""
+                INSERT INTO deals (deal_name, price_pkr, description, satiety_score, satiety_tier, image_url, product_url, source)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                RETURNING id;
+            """, (
+                deal['deal_name'], deal['price_pkr'], deal['description'],
+                deal['satiety_score'], deal['satiety_tier'], deal['image_url'],
+                deal['product_url'], deal['source']
+            ))
+            
+            deal_id = cur.fetchone()[0]
+
+            # 4. Insert Child Items (Breakdown)
+            if deal['items_breakdown']:
+                item_values = [
+                    (deal_id, item['item'], item['qty'], item['score'])
+                    for item in deal['items_breakdown']
+                ]
+                execute_values(cur, """
+                    INSERT INTO deal_items (deal_id, item, qty, score)
+                    VALUES %s
+                """, item_values)
+
+        conn.commit()
+        print("✅ Database sync complete!")
+
+    except Exception as e:
+        if conn:
+            conn.rollback()
+        print(f"❌ Database error: {e}")
+    finally:
+        if conn:
+            cur.close()
+            conn.close()
 
 # --- CONFIGURATION ---
 URL = "https://www.dominos.com.pk/menu"
@@ -266,9 +321,11 @@ def scrape_dominos():
             json.dump(deals_data, f, indent=4, ensure_ascii=False)
             
         print(f"\n🎉 Success! Scraped {len(deals_data)} deals. Saved to {OUTPUT_FILE}")
+        return deals_data
 
     finally:
         driver.quit()
 
 if __name__ == "__main__":
-    scrape_dominos()
+    deals_data = scrape_dominos()
+    save_to_db(deals_data)
