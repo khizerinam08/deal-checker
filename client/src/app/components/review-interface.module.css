@@ -94,6 +94,16 @@
   gap: 2rem;
 }
 
+/* Loading State */
+.loadingState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
 .sectionLabel {
   display: block;
   font-size: 0.875rem;

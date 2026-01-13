@@ -1,29 +1,86 @@
-import { fromNodeHeaders } from "better-auth/node";
-import { auth } from "../lib/auth.js"; // Your auth instance
+/**
+ * Middleware to verify user identity using session tokens from Neon Auth.
+ * 
+ * This provides secure authentication by:
+ * 1. Verifying the session token exists in the neon_auth.session table
+ * 2. Checking the session hasn't expired
+ * 3. Extracting the user ID from the verified session
+ * 4. Verifying the user exists in our profiles table
+ * 
+ * Session tokens are randomly generated and expire, making them secure.
+ */
 
+import dotenv from 'dotenv';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+dotenv.config({ path: join(__dirname, '../../.env') });
+
+import { db } from "../db/db.js";
+import { profiles } from "../db/schema.js";
+import { eq, and, gt } from "drizzle-orm";
+import { sql } from "drizzle-orm";
 
 export const requireAuth = async (req, res, next) => {
     try {
-        // 1. Convert Node headers to Web Standard headers
-        const headers = fromNodeHeaders(req.headers);
+        // Get session token from the Authorization header
+        const authHeader = req.headers.authorization;
 
-        // 2. Verify Session
-        const session = await auth.api.getSession({
-            headers: headers,
-        });
-
-        // 3. Block if invalid
-        if (!session) {
-            return res.status(401).json({ error: "Unauthorized" });
+        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+            return res.status(401).json({ error: "Unauthorized - No authorization header" });
         }
 
-        // 4. Attach user to request for the next route handler
-        req.session = session;
+        const sessionToken = authHeader.replace('Bearer ', '');
+
+        if (!sessionToken) {
+            return res.status(401).json({ error: "Unauthorized - No token provided" });
+        }
+
+        // Verify the session token against the neon_auth.session table
+        // This table is managed by Neon Auth and stores all active sessions
+        const sessionResult = await db.execute(sql`
+            SELECT 
+                s."userId",
+                s."expiresAt",
+                u.email
+            FROM neon_auth.session s
+            JOIN neon_auth.user u ON s."userId" = u.id
+            WHERE s.token = ${sessionToken}
+            AND s."expiresAt" > NOW()
+        `);
+
+        if (!sessionResult.rows || sessionResult.rows.length === 0) {
+            return res.status(401).json({ error: "Unauthorized - Invalid or expired session" });
+        }
+
+        const sessionData = sessionResult.rows[0];
+        const userId = sessionData.userId;
+
+        // Verify the user exists in our profiles table
+        const userProfile = await db.query.profiles.findFirst({
+            where: eq(profiles.id, userId)
+        });
+
+        if (!userProfile) {
+            return res.status(401).json({ error: "Unauthorized - User not found in profiles" });
+        }
+
+        // Attach user info to request
+        req.session = {
+            user: {
+                id: userId,
+                email: sessionData.email,
+                eaterType: userProfile.eaterType
+            }
+        };
+
+        console.log("User authenticated via session token:", userId);
 
         next();
     } catch (error) {
         console.error("Auth Middleware Error:", error);
-        res.status(500).json({ error: "Internal Server Error" });
+        res.status(500).json({ error: "Internal Server Error", details: error.message });
     }
 };

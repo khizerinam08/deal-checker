@@ -1,7 +1,8 @@
 import express from 'express';
 import { db } from '../db/db.js';
 import { votes, deals } from '../db/schema.js';
-import { eq } from 'drizzle-orm';
+import { eq, and } from 'drizzle-orm';
+import { requireAuth } from '../middleware/middleware.js';
 
 const router = express.Router();
 
@@ -9,25 +10,78 @@ const router = express.Router();
 const VALID_VOTER_TYPES = ['Small', 'Medium', 'Large'];
 
 /**
+ * GET /vote/:dealId
+ * Check if the current user has already voted on a deal.
+ * Returns the existing vote if found.
+ */
+router.get('/:dealId', requireAuth, async (req, res) => {
+    try {
+        const { dealId } = req.params;
+
+        // Get userId from authenticated session - NOT from request body
+        const userId = req.session.user.id;
+
+        if (!dealId) {
+            return res.status(400).json({
+                error: 'Missing required parameter: dealId'
+            });
+        }
+
+        // Check for existing vote
+        const existingVote = await db.query.votes.findFirst({
+            where: and(
+                eq(votes.userId, userId),
+                eq(votes.dealId, parseInt(dealId))
+            )
+        });
+
+        if (existingVote) {
+            return res.json({
+                hasVoted: true,
+                vote: {
+                    satietyRating: parseFloat(existingVote.satietyRating),
+                    valueRating: parseFloat(existingVote.valueRating),
+                    voterType: existingVote.voterType,
+                    createdAt: existingVote.createdAt
+                }
+            });
+        }
+
+        return res.json({
+            hasVoted: false,
+            vote: null
+        });
+
+    } catch (err) {
+        console.error('Get Vote Error:', err);
+        res.status(500).json({ error: 'Failed to get vote', details: err.message });
+    }
+});
+
+/**
  * POST /vote
- * Submit a vote for a deal.
+ * Submit or update a vote for a deal.
  * 
  * Request body:
- * - userId: string (required) - from client session
  * - dealId: number (required)
  * - satietyRating: number (required) - multiplier values like 0.7, 1.0, 1.5, 2.5
  * - valueRating: number (required) - value score like 2.0, 6.0, 10.0
  * - eaterType: string (required) - 'Small', 'Medium', or 'Large'
+ * 
+ * Note: userId is obtained from the authenticated session, NOT from request body
  */
-router.post('/', async (req, res) => {
+router.post('/', requireAuth, async (req, res) => {
     try {
-        const { userId, dealId, satietyRating, valueRating, eaterType } = req.body;
+        const { dealId, satietyRating, valueRating, eaterType } = req.body;
 
-        // Validate required fields
-        if (!userId || !dealId || satietyRating === undefined || valueRating === undefined || !eaterType) {
+        // Get userId from authenticated session - NOT from request body
+        const userId = req.session.user.id;
+
+        // Validate required fields (userId comes from session now)
+        if (!dealId || satietyRating === undefined || valueRating === undefined || !eaterType) {
             return res.status(400).json({
                 error: 'Missing required fields',
-                required: ['userId', 'dealId', 'satietyRating', 'valueRating', 'eaterType']
+                required: ['dealId', 'satietyRating', 'valueRating', 'eaterType']
             });
         }
 
@@ -42,24 +96,53 @@ router.post('/', async (req, res) => {
         // Map eaterType to voterType enum value
         const voterType = eaterType;
 
-        // Insert the vote
-        const newVote = await db.insert(votes).values({
-            userId: userId,
-            dealId: parseInt(dealId), // Ensure it's an integer
-            voterType: voterType,
-            valueRating: valueRating.toString(),
-            satietyRating: satietyRating.toString(),
-        }).returning();
+        // Check for existing vote from this user on this deal
+        const existingVote = await db.query.votes.findFirst({
+            where: and(
+                eq(votes.userId, userId),
+                eq(votes.dealId, parseInt(dealId))
+            )
+        });
 
-        console.log(`Vote recorded: User ${userId} voted on deal ${dealId}`);
+        let resultVote;
+        let isUpdate = false;
+
+        if (existingVote) {
+            // Update the existing vote
+            const updatedVote = await db.update(votes)
+                .set({
+                    voterType: voterType,
+                    valueRating: valueRating.toString(),
+                    satietyRating: satietyRating.toString(),
+                })
+                .where(eq(votes.voteId, existingVote.voteId))
+                .returning();
+
+            resultVote = updatedVote[0];
+            isUpdate = true;
+            console.log(`Vote updated: User ${userId} updated vote on deal ${dealId}`);
+        } else {
+            // Insert new vote
+            const newVote = await db.insert(votes).values({
+                userId: userId,
+                dealId: parseInt(dealId),
+                voterType: voterType,
+                valueRating: valueRating.toString(),
+                satietyRating: satietyRating.toString(),
+            }).returning();
+
+            resultVote = newVote[0];
+            console.log(`Vote recorded: User ${userId} voted on deal ${dealId}`);
+        }
 
         // Recalculate aggregations for this deal
         await recalculateDealAggregations(dealId);
 
-        res.status(201).json({
+        res.status(isUpdate ? 200 : 201).json({
             success: true,
-            message: 'Vote recorded successfully',
-            vote: newVote[0]
+            message: isUpdate ? 'Vote updated successfully' : 'Vote recorded successfully',
+            vote: resultVote,
+            isUpdate: isUpdate
         });
 
     } catch (err) {

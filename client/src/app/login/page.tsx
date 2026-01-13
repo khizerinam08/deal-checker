@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { authClient } from '@/lib/auth';
 import { useRouter } from 'next/navigation';
-import styles from './page.module.css'; 
+import styles from './page.module.css';
 
 // --- Helper to check if a specific cookie exists ---
 const getCookie = (name: string) => {
@@ -18,62 +18,62 @@ export default function LoginPage() {
 
   const handleLogin = async () => {
     const { data, error } = await authClient.signIn.email({ email, password });
-    if (data){
-        try {
-            await handleEaterType(data);
-            router.push('/');
-        } catch (e) {
-            console.error("Sync error:", e);
-            // Optional: redirect anyway if you want to let them in despite sync fail
-            router.push('/');
-        }
-    } 
+    console.log('[Login] SignIn response:', JSON.stringify(data, null, 2));
+    if (data) {
+      try {
+        await handleEaterType(data);
+        router.push('/');
+      } catch (e) {
+        console.error("Sync error:", e);
+        // Optional: redirect anyway if you want to let them in despite sync fail
+        router.push('/');
+      }
+    }
     else alert(error?.message || "Login failed");
   };
 
   const handleSignUp = async () => {
-    const { data, error } = await authClient.signUp.email({ 
-        email, 
-        password, 
-        name: "User Name" 
+    const { data, error } = await authClient.signUp.email({
+      email,
+      password,
+      name: "User Name"
     });
     if (data) {
-        try {
-            await handleEaterType(data);
-            router.push('/');
-        } catch (e) {
-            console.error("Sync error:", e);
-            router.push('/');
-        }
+      try {
+        await handleEaterType(data);
+        router.push('/');
+      } catch (e) {
+        console.error("Sync error:", e);
+        router.push('/');
+      }
     }
     else alert(error?.message || "Signup failed");
   };
 
-  // Interfaces defined here
+  // Interface matching the actual response from authClient.signIn.email
   interface User {
     id: string;
     email: string;
   }
-  
+
   interface SessionData {
-    token?: string | null;
+    token?: string | null;  // Token is at root level in signIn response
     user?: User;
   }
 
   const handleEaterType = async (sessionData: SessionData) => {
+    console.log('[EaterType] Sending token:', sessionData?.token);
     const res = await fetch('http://localhost:8000/eatertype', {
-        method: 'POST',
-        credentials: 'include', // Sends existing cookies to backend
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${sessionData?.token || ''}`
-        },
-        body: JSON.stringify({
-            userId: sessionData?.user?.id,
-        })
+      method: 'POST',
+      credentials: 'include', // Sends existing cookies to backend
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${sessionData?.token || ''}`
+      },
+      body: JSON.stringify({}) // Body no longer needed - userId comes from session
     });
 
-    if (!res.ok) throw new Error('Failed to fetch user data');
+    if (!res.ok) throw new Error('Failed to sync eater type');
 
     // 1. Await the JSON response properly
     const data = await res.json();
@@ -83,10 +83,10 @@ export default function LoginPage() {
     const existingCookie = getCookie('user_eater_size');
 
     if (!existingCookie && user_eater_size !== 'None') {
-        // 3. Set the cookie manually
-        // max-age=604800 (1 week)
-        document.cookie = `user_eater_size=${user_eater_size}; path=/; max-age=604800; SameSite=Lax`;
-        console.log("Cookie was missing. Set to:", user_eater_size);
+      // 3. Set the cookie manually
+      // max-age=604800 (1 week)
+      document.cookie = `user_eater_size=${user_eater_size}; path=/; max-age=604800; SameSite=Lax`;
+      console.log("Cookie was missing. Set to:", user_eater_size);
     }
 
     return data;
@@ -95,23 +95,23 @@ export default function LoginPage() {
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Welcome</h1>
-      
-      <input 
-        type="email" 
-        value={email} 
-        onChange={(e) => setEmail(e.target.value)} 
-        placeholder="Email" 
+
+      <input
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="Email"
         className={styles.inputField}
       />
-      
-      <input 
-        type="password" 
-        value={password} 
-        onChange={(e) => setPassword(e.target.value)} 
-        placeholder="Password" 
+
+      <input
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        placeholder="Password"
         className={styles.inputField}
       />
-      
+
       <div className={styles.buttonGroup}>
         <button onClick={handleLogin} className={styles.loginBtn}>Login</button>
         <button onClick={handleSignUp} className={styles.signupBtn}>Sign Up</button>
