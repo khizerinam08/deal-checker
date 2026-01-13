@@ -16,11 +16,12 @@ import cookieParser from 'cookie-parser';
 
 // Import routes
 import eaterTypeRoutes from './routes/eatertype.js';
+import voteRoutes from './routes/vote.js';
 
 const app = express()
 app.use(cors({
-  origin: 'http://localhost:3000', 
-  credentials: true                
+  origin: 'http://localhost:3000',
+  credentials: true
 }));
 const port = 8000
 
@@ -29,6 +30,7 @@ app.use(express.json());
 
 // Use routes
 app.use('/eatertype', eaterTypeRoutes);
+app.use('/vote', voteRoutes);
 
 app.get('/dominos-deals', async (req, res) => {
   try {
@@ -38,7 +40,7 @@ app.get('/dominos-deals', async (req, res) => {
         items_breakdown: true // This automatically joins the two tables for you
       }
     });
-    
+
     res.json(data);
   } catch (error) {
     console.error('Database error:', error);

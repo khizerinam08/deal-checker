@@ -1,8 +1,8 @@
-import Image from "next/image";
 import { PizzaDeal } from "../models/models";
 import styles from './page.module.css';
 import { EaterTypeModal } from "../components/eater-type-modal";
 import { ChangeTypeTrigger } from '../components/change-type-trigger';
+import { DealCard } from '../components/deal-card';
 import { cookies } from 'next/headers';
 
 async function getDeals(): Promise<PizzaDeal[]> {
@@ -25,24 +25,11 @@ export default async function DominosDeals() {
                 <div className={styles.header}>
                     <h1 className={styles.title}>Dominos Deals</h1>
                     {/* Only show trigger if they have an existing selection */}
-                    </div>
+                </div>
 
                 <div className={styles.flex}>
                     {deals.map((deal) => (
-                        <div key={deal.id} className={styles.card}>
-                            <Image 
-                                src={deal.imageUrl || '/placeholder-image.jpg'} 
-                                alt={deal.dealName}
-                                width={436}
-                                height={300}
-                                className="rounded-lg"
-                            />
-                            <h2 className={styles.dealName}>
-                                <a href={deal.productUrl}>{deal.dealName}</a>
-                            </h2>
-                            <p className={styles.price}>Rs. {deal.pricePkr}</p>
-                            <p className={styles.description}>{deal.description}</p>
-                        </div>
+                        <DealCard key={deal.id} deal={deal} />
                     ))}
                 </div>
             </main>

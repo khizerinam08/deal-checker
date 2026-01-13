@@ -1,0 +1,91 @@
+.cardWrapper {
+    width: 100%;
+    max-width: 500px;
+}
+
+.card {
+    border: 1px solid #e5e7eb;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.image {
+    border-radius: 0.5rem;
+    object-fit: cover;
+}
+
+.cardContent {
+    flex: 1;
+}
+
+.dealName {
+    font-weight: 700;
+    font-size: 1.125rem;
+    margin: 0 0 0.25rem 0;
+}
+
+.dealName a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.dealName a:hover {
+    text-decoration: underline;
+}
+
+.price {
+    color: #16a34a;
+    font-weight: 600;
+    margin: 0 0 0.25rem 0;
+}
+
+.description {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin: 0;
+}
+
+.reviewButtonContainer {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 0.75rem;
+    border-top: 1px solid #f3f4f6;
+}
+
+.reviewButtonContainer button {
+    background-color: #006491;
+    color: white;
+    padding: 0.5rem 1.25rem;
+    border-radius: 0.375rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.reviewButtonContainer button:hover {
+    background-color: #005580;
+    transform: translateY(-1px);
+}
+
+/* Collapsible review container with slide animation */
+.reviewContainer {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s ease-out;
+    overflow: hidden;
+}
+
+.reviewContainer.open {
+    grid-template-rows: 1fr;
+}
+
+.reviewContent {
+    min-height: 0;
+}
