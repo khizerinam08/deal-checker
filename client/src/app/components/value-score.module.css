@@ -1,0 +1,61 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    min-width: 48px;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-md);
+    font-weight: 700;
+    background-color: var(--color-green);
+    color: white;
+}
+
+.value {
+    font-size: 1.125rem;
+    font-weight: 700;
+}
+
+.label {
+    font-size: 0.625rem;
+    opacity: 0.9;
+}
+
+/* Color variants based on score */
+.excellent {
+    background-color: var(--color-green);
+    color: white;
+}
+
+.good {
+    background-color: #3b82f6;
+    color: white;
+}
+
+.fair {
+    background-color: #f59e0b;
+    color: white;
+}
+
+.poor {
+    background-color: #ef4444;
+    color: white;
+}
+
+.noScore {
+    background-color: #e5e7eb;
+    color: #9ca3af;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.reviewCount {
+    font-size: 0.75rem;
+    color: var(--color-gray);
+}

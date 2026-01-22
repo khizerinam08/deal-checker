@@ -71,13 +71,24 @@ export function ReviewInterface({ dealId, isOpen, onClose }: ReviewInterfaceProp
   const [satiety, setSatiety] = useState<number | null>(null);
   const [value, setValue] = useState<number | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  // Track if user has made changes before fetch completes
+  const [isDirty, setIsDirty] = useState(false);
 
   const isReady = satiety !== null && value !== null;
 
+  // Wrapper functions to track user changes
+  const handleSatietyChange = (newValue: number) => {
+    setSatiety(newValue);
+    setIsDirty(true);
+  };
 
-  // Fetch existing vote when modal opens
+  const handleValueChange = (newValue: number) => {
+    setValue(newValue);
+    setIsDirty(true);
+  };
+
+  // Fetch existing vote when modal opens (optimistic - no blocking)
   useEffect(() => {
     async function fetchExistingVote() {
       if (!isOpen || !session?.user) return;
@@ -86,15 +97,16 @@ export function ReviewInterface({ dealId, isOpen, onClose }: ReviewInterfaceProp
       const cachedVote = submittedVotesCache.get(dealId);
       if (cachedVote && Date.now() - cachedVote.timestamp < 5000) {
         console.log('[ReviewInterface] Using cached vote:', cachedVote);
-        setSatiety(cachedVote.satiety);
-        setValue(cachedVote.value);
-        setIsEditing(true);
+        // Only set if user hasn't made changes
+        if (!isDirty) {
+          setSatiety(cachedVote.satiety);
+          setValue(cachedVote.value);
+          setIsEditing(true);
+        }
         return;
       }
 
       console.log('[ReviewInterface] Fetching vote for deal:', dealId);
-      console.log('[ReviewInterface] Session object:', JSON.stringify(session, null, 2));
-      setIsLoading(true);
       try {
         // Add timestamp to prevent browser caching
         const response = await fetch(`http://localhost:8000/vote/${dealId}?t=${Date.now()}`, {
@@ -109,34 +121,33 @@ export function ReviewInterface({ dealId, isOpen, onClose }: ReviewInterfaceProp
           const data = await response.json();
           console.log('[ReviewInterface] Server response:', data);
 
-          if (data.hasVoted && data.vote) {
-            // Find the closest matching option values
-            // This handles floating point precision issues (e.g., 0.7 vs 0.70000001)
-            const matchSatiety = SATIETY_OPTIONS.find(
-              opt => Math.abs(opt.value - data.vote.satietyRating) < 0.01
-            );
-            const matchValue = VALUE_OPTIONS.find(
-              opt => Math.abs(opt.value - data.vote.valueRating) < 0.01
-            );
+          // Only update if user hasn't made changes while we were fetching
+          if (!isDirty) {
+            if (data.hasVoted && data.vote) {
+              // Find the closest matching option values
+              const matchSatiety = SATIETY_OPTIONS.find(
+                opt => Math.abs(opt.value - data.vote.satietyRating) < 0.01
+              );
+              const matchValue = VALUE_OPTIONS.find(
+                opt => Math.abs(opt.value - data.vote.valueRating) < 0.01
+              );
 
-            console.log('[ReviewInterface] Matched satiety:', matchSatiety?.value, 'from', data.vote.satietyRating);
-            console.log('[ReviewInterface] Matched value:', matchValue?.value, 'from', data.vote.valueRating);
+              console.log('[ReviewInterface] Matched satiety:', matchSatiety?.value, 'from', data.vote.satietyRating);
+              console.log('[ReviewInterface] Matched value:', matchValue?.value, 'from', data.vote.valueRating);
 
-            // Pre-populate with the matched option values
-            setSatiety(matchSatiety?.value ?? null);
-            setValue(matchValue?.value ?? null);
-            setIsEditing(true);
+              setSatiety(matchSatiety?.value ?? null);
+              setValue(matchValue?.value ?? null);
+              setIsEditing(true);
+            } else {
+              // No existing vote - keep null values (user may have already started selecting)
+              setIsEditing(false);
+            }
           } else {
-            // Reset for new vote
-            setSatiety(null);
-            setValue(null);
-            setIsEditing(false);
+            console.log('[ReviewInterface] User made changes, keeping their selections');
           }
         }
       } catch (error) {
         console.error("Failed to fetch existing vote", error);
-      } finally {
-        setIsLoading(false);
       }
     }
 
@@ -149,6 +160,7 @@ export function ReviewInterface({ dealId, isOpen, onClose }: ReviewInterfaceProp
       setSatiety(null);
       setValue(null);
       setIsEditing(false);
+      setIsDirty(false);
     }
   }, [isOpen]);
 
@@ -189,6 +201,7 @@ export function ReviewInterface({ dealId, isOpen, onClose }: ReviewInterfaceProp
       console.error("Failed to submit", error);
     } finally {
       setIsSubmitting(false);
+      window.location.reload()
     }
   };
 
@@ -196,7 +209,6 @@ export function ReviewInterface({ dealId, isOpen, onClose }: ReviewInterfaceProp
 
   // Determine button text based on state
   const getButtonText = () => {
-    if (isLoading) return 'Loading...';
     if (isSubmitting) return isEditing ? 'Updating...' : 'Posting...';
     if (!isReady) return 'Select options to finish';
     return isEditing ? 'Update Review' : 'Submit Review';
@@ -220,72 +232,64 @@ export function ReviewInterface({ dealId, isOpen, onClose }: ReviewInterfaceProp
             <span className={styles.signInWarning}>Please sign in to vote</span>
           )}
         </div>
-        <button onClick={onClose} className={styles.closeBtn}>
-          <X size={20} />
-        </button>
       </div>
 
       <div className={styles.content}>
+        <>
+          {/* SECTION 1: SATIETY */}
+          <div>
+            <label className={styles.sectionLabel}>Did it fill you up?</label>
+            <div className={styles.satietyGrid}>
+              {SATIETY_OPTIONS.map((opt) => {
+                const isSelected = satiety === opt.value;
+                // Combine base class with active class if selected
+                const btnClass = `${styles.optionBtn} ${isSelected ? styles[opt.activeClass] : ''}`;
 
-        {isLoading ? (
-          <div className={styles.loadingState}>Loading your previous review...</div>
-        ) : (
-          <>
-            {/* SECTION 1: SATIETY */}
-            <div>
-              <label className={styles.sectionLabel}>Did it fill you up?</label>
-              <div className={styles.satietyGrid}>
-                {SATIETY_OPTIONS.map((opt) => {
-                  const isSelected = satiety === opt.value;
-                  // Combine base class with active class if selected
-                  const btnClass = `${styles.optionBtn} ${isSelected ? styles[opt.activeClass] : ''}`;
-
-                  return (
-                    <button
-                      key={opt.label}
-                      onClick={() => setSatiety(opt.value)}
-                      className={btnClass}
-                    >
-                      <div>{opt.icon}</div>
-                      <span className={styles.optionLabel}>{opt.label}</span>
-                    </button>
-                  );
-                })}
-              </div>
+                return (
+                  <button
+                    key={opt.label}
+                    onClick={() => handleSatietyChange(opt.value)}
+                    className={btnClass}
+                  >
+                    <div>{opt.icon}</div>
+                    <span className={styles.optionLabel}>{opt.label}</span>
+                  </button>
+                );
+              })}
             </div>
+          </div>
 
-            {/* SECTION 2: VALUE */}
-            <div>
-              <label className={styles.sectionLabel}>Was the price fair?</label>
-              <div className={styles.valueGrid}>
-                {VALUE_OPTIONS.map((opt) => {
-                  const isSelected = value === opt.value;
-                  const btnClass = `${styles.optionBtn} ${isSelected ? styles[opt.activeClass] : ''}`;
+          {/* SECTION 2: VALUE */}
+          <div>
+            <label className={styles.sectionLabel}>Was the price fair?</label>
+            <div className={styles.valueGrid}>
+              {VALUE_OPTIONS.map((opt) => {
+                const isSelected = value === opt.value;
+                const btnClass = `${styles.optionBtn} ${isSelected ? styles[opt.activeClass] : ''}`;
 
-                  return (
-                    <button
-                      key={opt.label}
-                      onClick={() => setValue(opt.value)}
-                      className={btnClass}
-                    >
-                      <div>{opt.icon}</div>
-                      <span className={styles.optionLabel}>{opt.label}</span>
-                    </button>
-                  );
-                })}
-              </div>
+                return (
+                  <button
+                    key={opt.label}
+                    onClick={() => handleValueChange(opt.value)}
+                    className={btnClass}
+                  >
+                    <div>{opt.icon}</div>
+                    <span className={styles.optionLabel}>{opt.label}</span>
+                  </button>
+                );
+              })}
             </div>
+          </div>
 
-            {/* Footer Button */}
-            <button
-              disabled={!isReady || isSubmitting || isLoading}
-              onClick={handleSubmit}
-              className={styles.submitBtn}
-            >
-              {getButtonText()}
-            </button>
-          </>
-        )}
+          {/* Footer Button */}
+          <button
+            disabled={!isReady || isSubmitting}
+            onClick={handleSubmit}
+            className={styles.submitBtn}
+          >
+            {getButtonText()}
+          </button>
+        </>
 
       </div>
     </div>

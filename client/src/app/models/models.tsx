@@ -1,11 +1,11 @@
-type FoodItemType = 
-  | 'medium_pizza' 
-  | 'large_pizza' 
-  | 'small_pizza' 
-  | 'drink_small' 
-  | 'drink_1.5l' 
-  | 'side' 
-  | 'dessert' 
+type FoodItemType =
+  | 'medium_pizza'
+  | 'large_pizza'
+  | 'small_pizza'
+  | 'drink_small'
+  | 'drink_1.5l'
+  | 'side'
+  | 'dessert'
   | 'meltz'
   | 'loaded_pizza_roll'
   | 'pizza_roll'
@@ -24,10 +24,12 @@ export interface PizzaDeal {
   description: string;
   satietyScore: number;
   items_breakdown: ItemBreakdown[];
-  satietyTier: "Snack / Light" | "Standard Meal" | "Heavy Meal (Sharing)"; 
+  satietyTier: "Snack / Light" | "Standard Meal" | "Heavy Meal (Sharing)";
   imageUrl: string | null;
   productUrl: string;
   source: string;
+  personalizedScore?: number;  // Calculated based on user's eater type
+  reviewCount?: number;        // Total number of reviews for this deal
 }
 
 // Since your data is a list:

@@ -163,7 +163,18 @@ async function recalculateDealAggregations(dealId) {
         });
 
         if (dealVotes.length === 0) {
-            return; // No votes to aggregate
+            // Reset to default values when all votes are deleted
+            await db.update(deals)
+                .set({
+                    baseValueScore: 0,
+                    multiplierLight: 1.0,
+                    multiplierMedium: 1.0,
+                    multiplierHeavy: 1.0,
+                })
+                .where(eq(deals.id, parseInt(dealId)));
+
+            console.log(`Deal ${dealId} reset to defaults (no votes)`);
+            return;
         }
 
         // Calculate average value rating (baseValueScore)

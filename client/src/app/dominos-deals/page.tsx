@@ -5,18 +5,23 @@ import { ChangeTypeTrigger } from '../components/change-type-trigger';
 import { DealCard } from '../components/deal-card';
 import { cookies } from 'next/headers';
 
-async function getDeals(): Promise<PizzaDeal[]> {
+async function getDeals(userSize: string | undefined): Promise<PizzaDeal[]> {
     const res = await fetch('http://localhost:8000/dominos-deals', {
-        next: { revalidate: 60 } // Better than manual cache headers
+        method: 'POST',
+        cache: 'no-store', // Always get fresh data to reflect score changes
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ eaterType: userSize || 'Medium' })
     });
     if (!res.ok) throw new Error('Failed to fetch deals');
     return res.json();
 }
 
 export default async function DominosDeals() {
-    const deals: PizzaDeal[] = await getDeals();
     const cookieStore = await cookies();
-    const userSize = cookieStore.get('user_eater_size');
+    const userSizeCookie = cookieStore.get('user_eater_size');
+    const userSize = userSizeCookie?.value;
+    const deals: PizzaDeal[] = await getDeals(userSize);
+
 
     return (
         <>

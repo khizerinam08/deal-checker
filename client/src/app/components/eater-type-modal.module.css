@@ -2,95 +2,106 @@
   position: fixed;
   inset: 0;
   z-index: 100;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: var(--spacing-md);
 }
 
 .modalBox {
-  background: white;
-  padding: 2rem;
-  border-radius: 1.5rem;
-  width: 90%;
-  max-width: 400px;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  background: var(--color-cream-light);
+  padding: var(--spacing-xl);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 320px;
+  box-shadow: var(--shadow-hover);
 }
 
 .title {
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: #1a1a1a;
-  margin-bottom: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-gray);
+  margin-bottom: var(--spacing-lg);
+  line-height: 1.4;
 }
 
 .description {
-  color: #666;
-  font-size: 0.95rem;
-  margin-bottom: 1.5rem;
+  color: var(--color-gray);
+  font-size: 0.875rem;
+  margin-bottom: var(--spacing-lg);
   line-height: 1.4;
 }
 
 .buttonList {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: var(--spacing-sm);
 }
 
 .sizeButton {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 1.25rem;
-  border: 2px solid #e5e7eb;
-  border-radius: 0.75rem;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: var(--radius-sm);
   background: white;
   cursor: pointer;
   transition: all 0.2s ease;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #374151;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-gray);
+}
+
+.sizeButton:hover {
+  border-color: rgba(0, 0, 0, 0.2);
 }
 
 .activeButton {
-  border-color: #006491; /* Dominos Blue */
-  background-color: #f0f9ff;
-  color: #006491;
+  border-color: var(--color-black);
+  background-color: var(--color-black);
+  color: white;
 }
 
 .subtext {
   font-size: 0.75rem;
   font-weight: 400;
-  color: #9ca3af;
+  color: var(--color-gray-light);
 }
 
 .confirmButton {
   width: 100%;
-  margin-top: 1.5rem;
-  padding: 1rem;
-  background: #e31837; /* Dominos Red */
+  margin-top: var(--spacing-lg);
+  padding: var(--spacing-sm);
+  background: var(--color-black);
   color: white;
   border: none;
-  border-radius: 0.75rem;
-  font-weight: 700;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.875rem;
   cursor: pointer;
-  transition: transform 0.1s active;
+  transition: all 0.2s;
 }
 
 .confirmButton:hover {
-  filter: brightness(1.1);
+  background-color: #333;
 }
 
 .cancelLink {
   display: block;
   width: 100%;
   text-align: center;
-  margin-top: 1rem;
+  margin-top: var(--spacing-md);
   background: none;
   border: none;
-  color: #6b7280;
+  color: var(--color-gray);
   font-size: 0.875rem;
   text-decoration: underline;
   cursor: pointer;
+}
+
+.cancelLink:hover {
+  color: var(--color-black);
 }

@@ -1,9 +1,632 @@
-.header{
-  display: flex;
-  justify-content: flex-end;
-  padding: 1em
+/* Landing Page Styles */
+
+.container {
+  min-height: 100vh;
 }
 
-body{
-  height: 100%;
+/* Hero Section */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 120px;
+  overflow: hidden;
+}
+
+.heroBackground {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.heroImage {
+  object-fit: cover;
+  object-position: center bottom;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.heroTitle {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  color: var(--color-black);
+  max-width: 800px;
+  line-height: 1.2;
+}
+
+.ctaButton {
+  display: inline-block;
+  padding: var(--spacing-sm) var(--spacing-xl);
+  border: 2px solid var(--color-black);
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--color-black);
+  background: transparent;
+  transition: all 0.2s;
+}
+
+.ctaButton:hover {
+  background: var(--color-black);
+  color: white;
+}
+
+.heroSubtitle {
+  font-size: 1rem;
+  color: var(--color-gray);
+  margin-top: var(--spacing-sm);
+}
+
+.scoreBadge {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-xl);
+}
+
+.scoreLabel {
+  font-size: 0.75rem;
+  color: var(--color-gray);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.scoreIcon {
+  font-weight: 700;
+  margin-right: 2px;
+}
+
+.scoreValue {
+  background-color: var(--color-green);
+  color: white;
+  width: 55px;
+  height: 55px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+/* Divider */
+.divider {
+  height: 70px;
+  background-color: var(--color-black);
+  width: 100%;
+}
+
+/* How It Works Section */
+.howItWorks {
+  padding: var(--spacing-3xl) var(--spacing-xl);
+  background-color: var(--color-cream);
+  position: relative;
+}
+
+.howItWorksGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: 0;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-xl);
+}
+
+.gridCell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-md);
+  min-height: 200px;
+}
+
+/* Arrow and empty cells - for hiding on mobile */
+.arrowCell,
+.emptyCell {
+  display: flex;
+  /* Will be set to none on mobile */
+}
+
+/* Card wrapper for title + card */
+.cardWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.cardTitle {
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
+  color: var(--color-black);
+  margin-bottom: var(--spacing-sm);
+  font-family: var(--font-primary);
+  max-width: 100%;
+}
+
+/* Overlay variant for deal card - text positioned above the card */
+.cardWrapperOverlay {
+  position: relative;
+}
+
+.cardTitleOverlay {
+  position: absolute;
+  top: -340px;
+  left: 45%;
+  transform: translateX(-50%) rotate(-3deg);
+  z-index: 10;
+  white-space: nowrap;
+}
+
+.TitleOne {
+  position: absolute;
+  top: -50px;
+  left: 37%;
+  transform: translateX(-50%) rotate(-3deg);
+  white-space: nowrap;
+}
+
+.TitleThree {
+  position: absolute;
+  top: 10px;
+  left: 52%;
+  transform: translateX(-50%) rotate(3deg);
+  white-space: nowrap;
+}
+
+/* Card SVGs - reduced size */
+.cardSvg {
+  max-width: 280px;
+  height: auto;
+}
+
+/* First card image - smaller size */
+.cardOneImage {
+  max-width: 250px;
+}
+
+/* Card tilts */
+.cardTiltLeft {
+  transform: rotate(-3deg);
+
+}
+
+.addReviews {
+  margin-top: 50px;
+}
+
+.cardTiltRight {
+  transform: rotate(3deg);
+  margin-top: -300px;
+  /* Move the right card up */
+}
+
+/* Arrow SVGs - reduced size */
+.arrowSvg {
+  max-width: 200px;
+  height: auto;
+}
+
+/* First arrow - tilted to point down-right */
+.arrowTiltFirst {
+  transform: rotate(-10deg);
+}
+
+/* Second arrow flipped and tilted to point down */
+.arrowFlipped {
+  transform: scaleX(-1) rotate(-35deg);
+  margin-top: -150px;
+}
+
+/* Responsive for large tablets */
+@media (max-width: 1024px) {
+  .cardTiltRight {
+    margin-top: -200px;
+  }
+
+  .cardTitleOverlay {
+    top: -250px;
+  }
+
+  .arrowFlipped {
+    margin-top: -100px;
+  }
+}
+
+/* Responsive grid for tablets and mobile */
+@media (max-width: 900px) {
+  .howItWorksGrid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: var(--spacing-xl);
+  }
+
+  .gridCell {
+    min-height: auto;
+    padding: var(--spacing-md);
+  }
+
+  /* Hide arrows and empty cells on mobile */
+  .arrowCell,
+  .emptyCell {
+    display: none;
+  }
+
+  /* Reorder cards for mobile: Card1 -> Card2 -> Card3 */
+  .cardOne {
+    order: 1;
+  }
+
+  .cardTwo {
+    order: 2;
+  }
+
+  .cardThree {
+    order: 3;
+  }
+
+  /* Reset card tilts and margins for mobile */
+  .cardTiltRight {
+    margin-top: 0;
+  }
+
+  .addReviews {
+    margin-top: 0;
+  }
+
+  /* Center cards on mobile */
+  .cardWrapper {
+    align-items: center;
+    text-align: center;
+  }
+
+  .cardTitle {
+    text-align: center;
+  }
+
+  /* Reset absolute positioning for mobile - use normal flow */
+  .TitleOne,
+  .TitleThree,
+  .cardTitleOverlay {
+    position: static;
+    transform: none;
+    white-space: normal;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  /* Increase font size when arrows are hidden */
+  .cardTitle {
+    font-size: 1.5rem;
+  }
+
+  /* Scale card images on mobile */
+  .cardSvg {
+    max-width: 300px;
+  }
+
+  /* First card stays smaller on mobile */
+  .cardOneImage {
+    max-width: 240px;
+  }
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-lg);
+  position: relative;
+}
+
+.stepTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  font-style: italic;
+  color: var(--color-black);
+}
+
+.stepCard {
+  background: var(--color-cream-light);
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  max-width: 280px;
+  transform: rotate(-3deg);
+}
+
+.stepCardTitle {
+  font-size: 0.75rem;
+  color: var(--color-gray);
+  margin-bottom: var(--spacing-md);
+}
+
+.optionsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.option {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid #ddd;
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  color: var(--color-gray);
+  background: white;
+}
+
+.optionSelected {
+  background-color: var(--color-black);
+  color: white;
+  border-color: var(--color-black);
+}
+
+.submitBtn {
+  width: 100%;
+  padding: var(--spacing-sm);
+  background-color: var(--color-black);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.arrow,
+.arrowDown {
+  font-size: 2rem;
+  color: var(--color-black);
+  margin-top: var(--spacing-md);
+}
+
+/* Deal Preview */
+.dealPreview {
+  background: var(--color-cream-light);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  max-width: 280px;
+  transform: rotate(3deg);
+}
+
+.dealPreviewImage {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-bottom: var(--spacing-sm);
+}
+
+.previewImg {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.dealPreviewContent h4 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: var(--spacing-xs);
+}
+
+.dealPrice {
+  font-size: 0.875rem;
+  color: var(--color-gray);
+  margin-bottom: var(--spacing-sm);
+}
+
+.dealScore {
+  display: inline-block;
+  background-color: var(--color-green);
+  color: white;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  font-size: 0.875rem;
+}
+
+.addReviewBtn {
+  width: 100%;
+  margin-top: var(--spacing-md);
+  padding: var(--spacing-sm);
+  background-color: #E91E63;
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.75rem;
+}
+
+/* Review Preview */
+.reviewPreview {
+  background: var(--color-cream-light);
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  max-width: 280px;
+  transform: rotate(-2deg);
+}
+
+.reviewQuestion {
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: var(--spacing-sm);
+  color: var(--color-black);
+}
+
+.reviewOptions {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.reviewOption {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #ddd;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  font-size: 0.875rem;
+  color: var(--color-gray);
+}
+
+/* Vendors Section */
+.vendors {
+  padding: var(--spacing-3xl) var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xl);
+  background: var(--color-cream);
+}
+
+.vendorsHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.vendorsTitle {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: var(--color-black);
+}
+
+/* Vendor SVG arrows */
+.vendorArrowLeft,
+.vendorArrowRight {
+  width: clamp(60px, 10vw, 100px);
+  height: auto;
+  flex-shrink: 0;
+}
+
+.vendorArrowLeft {
+  /* Arrow naturally points down-left, keep as-is */
+  transform: rotate(0deg);
+}
+
+.vendorArrowRight {
+  /* Flip horizontally to point down-right */
+  transform: scaleX(-1);
+}
+
+.vendorCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+  background: var(--color-cream-light);
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.vendorCard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+}
+
+.vendorLogo {
+  border-radius: var(--radius-md);
+}
+
+.vendorName {
+  font-weight: 600;
+  color: var(--color-black);
+}
+
+/* Footer */
+.footer {
+  padding: var(--spacing-3xl) var(--spacing-xl);
+  padding-bottom: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  background: var(--color-cream);
+  overflow: hidden;
+  max-height: 19rem;
+}
+
+.watermarkIcon {
+  font-size: 15rem;
+  font-weight: 700;
+  background: linear-gradient(to bottom, rgba(102, 102, 102, 0), rgba(0, 0, 0, 0.15));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  transform: scaleX(-1);
+}
+
+.watermarkText {
+  font-size: 15rem;
+  font-weight: 700;
+  background: linear-gradient(to bottom, rgba(102, 102, 102, 0), rgba(0, 0, 0, 0.15));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .heroTitle {
+    font-size: 2.5rem;
+  }
+
+  .watermarkIcon,
+  .watermarkText {
+    font-size: 10rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .navbar {
+    padding: var(--spacing-md);
+  }
+
+  .heroTitle {
+    font-size: 1.75rem;
+    padding: 0 var(--spacing-md);
+  }
+
+  .hero {
+    padding-top: 80px;
+    min-height: 80vh;
+  }
+
+
+
+  .howItWorks {
+    padding: var(--spacing-xl) var(--spacing-md);
+  }
+
+  .stepCard,
+  .dealPreview,
+  .reviewPreview {
+    transform: none;
+  }
+
+  .watermarkIcon,
+  .watermarkText {
+    font-size: 5rem;
+  }
+
+  .footer {
+    padding: var(--spacing-xl);
+  }
 }

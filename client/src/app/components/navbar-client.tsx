@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { LoginButton } from './login-button';
 import { EaterTypeModal } from './eater-type-modal';
 import Cookies from 'js-cookie';
@@ -10,14 +11,19 @@ import styles from './navbar.module.css';
 
 interface NavbarClientProps {
     initialEaterType: string | null;
+    transparent?: boolean;
 }
 
-export function NavbarClient({ initialEaterType }: NavbarClientProps) {
+export function NavbarClient({ initialEaterType, transparent = false }: NavbarClientProps) {
     const pathname = usePathname();
     const router = useRouter();
     const [eaterType, setEaterType] = useState<string | null>(initialEaterType);
     const [showRedirectPopup, setShowRedirectPopup] = useState(false);
     const [showEaterModal, setShowEaterModal] = useState(false);
+
+    // Auto-detect if on landing page for transparency
+    const isLandingPage = pathname === '/';
+    const isTransparent = transparent || isLandingPage;
 
     // Update eaterType on route change or cookie change
     useEffect(() => {
@@ -25,7 +31,7 @@ export function NavbarClient({ initialEaterType }: NavbarClientProps) {
         if (cookieValue !== eaterType) {
             setEaterType(cookieValue);
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pathname]);
 
     // Check if we're on the dominos deals page
@@ -50,16 +56,22 @@ export function NavbarClient({ initialEaterType }: NavbarClientProps) {
 
     return (
         <>
-            <nav className={styles.navbar}>
+            <nav className={`${styles.navbar} ${isTransparent ? styles.transparent : ''}`}>
                 {/* Logo / Brand */}
                 <Link href="/" className={styles.logo}>
-                    🍕 Deal Checker
+                    <Image
+                        src="/WorthIt logo.png"
+                        alt="WorthIt"
+                        width={100}
+                        height={30}
+                        className={styles.logoImage}
+                    />
                 </Link>
 
                 {/* Right Section: Eater Type + Login */}
                 <div className={styles.rightSection}>
                     {/* Eater Type Badge */}
-                    <button 
+                    <button
                         className={styles.eaterTypeBadge}
                         onClick={handleEaterTypeClick}
                         title={isOnDominosPage ? "Click to change" : "Go to Dominos page to change"}
@@ -90,13 +102,13 @@ export function NavbarClient({ initialEaterType }: NavbarClientProps) {
                             To change your eater type, you need to visit the Dominos Deals page.
                         </p>
                         <div className={styles.popupButtons}>
-                            <button 
+                            <button
                                 className={styles.popupCancelBtn}
                                 onClick={() => setShowRedirectPopup(false)}
                             >
                                 Cancel
                             </button>
-                            <button 
+                            <button
                                 className={styles.popupGoBtn}
                                 onClick={handleGoToDominos}
                             >
@@ -109,9 +121,9 @@ export function NavbarClient({ initialEaterType }: NavbarClientProps) {
 
             {/* Eater Type Modal - only shown when on dominos page */}
             {showEaterModal && isOnDominosPage && (
-                <EaterTypeModal 
-                    initialOpen={true} 
-                    onClose={() => setShowEaterModal(false)} 
+                <EaterTypeModal
+                    initialOpen={true}
+                    onClose={() => setShowEaterModal(false)}
                 />
             )}
         </>
