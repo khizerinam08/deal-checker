@@ -1,5 +1,156 @@
 /* Landing Page Styles */
 
+/* ============================================
+   ANIMATION KEYFRAMES
+   ============================================ */
+
+/* Fade in from transparent */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* Fade in while sliding up */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Fade in while sliding down */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Fade in from left */
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Fade in from right */
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Scale up with fade */
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Gentle float animation for decorative elements */
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Subtle pulse for attention */
+@keyframes pulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+/* Draw line animation for arrows */
+@keyframes drawLine {
+  from {
+    stroke-dashoffset: 1000;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Bounce in effect */
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
+
+  70% {
+    transform: scale(0.9);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Wiggle effect for playful elements */
+@keyframes wiggle {
+
+  0%,
+  100% {
+    transform: rotate(-3deg);
+  }
+
+  50% {
+    transform: rotate(3deg);
+  }
+}
+
 .container {
   min-height: 100vh;
 }
@@ -35,6 +186,7 @@
   flex-direction: column;
   align-items: center;
   gap: var(--spacing-md);
+  animation: fadeIn 0.8s ease-out forwards;
 }
 
 .heroTitle {
@@ -43,6 +195,8 @@
   color: var(--color-black);
   max-width: 800px;
   line-height: 1.2;
+  opacity: 0;
+  animation: fadeInDown 0.8s ease-out 0.2s forwards;
 }
 
 .ctaButton {
@@ -54,18 +208,29 @@
   font-size: 1rem;
   color: var(--color-black);
   background: transparent;
-  transition: all 0.2s;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  animation: fadeInUp 0.7s ease-out 0.5s forwards;
 }
 
 .ctaButton:hover {
   background: var(--color-black);
   color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+}
+
+.ctaButton:active {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
 
 .heroSubtitle {
   font-size: 1rem;
   color: var(--color-gray);
   margin-top: var(--spacing-sm);
+  opacity: 0;
+  animation: fadeInUp 0.6s ease-out 0.8s forwards;
 }
 
 .scoreBadge {
@@ -190,6 +355,11 @@
 .cardSvg {
   max-width: 280px;
   height: auto;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cardSvg:hover {
+  transform: scale(1.03);
 }
 
 /* First card image - smaller size */
@@ -533,21 +703,27 @@
   padding: var(--spacing-lg);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease;
 }
 
 .vendorCard:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-hover);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
 .vendorLogo {
   border-radius: var(--radius-md);
+  transition: transform 0.3s ease;
+}
+
+.vendorCard:hover .vendorLogo {
+  transform: scale(1.05);
 }
 
 .vendorName {
   font-weight: 600;
   color: var(--color-black);
+  transition: color 0.3s ease;
 }
 
 /* Footer */
