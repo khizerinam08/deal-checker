@@ -62,7 +62,7 @@ export default function LoginPage() {
 
   const handleEaterType = async (sessionData: SessionData) => {
     console.log('[EaterType] Sending token:', sessionData?.token);
-    const res = await fetch('http://localhost:8000/eatertype', {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/eatertype`, {
       method: 'POST',
       credentials: 'include',
       headers: {

@@ -6,7 +6,7 @@ import { DealCard } from '../components/deal-card';
 import { cookies } from 'next/headers';
 
 async function getDeals(userSize: string | undefined): Promise<PizzaDeal[]> {
-    const res = await fetch('http://localhost:8000/dominos-deals', {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/dominos-deals`, {
         method: 'POST',
         cache: 'no-store', // Always get fresh data to reflect score changes
         headers: { 'Content-Type': 'application/json' },

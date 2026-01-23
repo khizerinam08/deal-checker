@@ -109,7 +109,7 @@ export function ReviewInterface({ dealId, isOpen, onClose }: ReviewInterfaceProp
       console.log('[ReviewInterface] Fetching vote for deal:', dealId);
       try {
         // Add timestamp to prevent browser caching
-        const response = await fetch(`http://localhost:8000/vote/${dealId}?t=${Date.now()}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/vote/${dealId}?t=${Date.now()}`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${session.session?.token}`,
@@ -172,7 +172,7 @@ export function ReviewInterface({ dealId, isOpen, onClose }: ReviewInterfaceProp
       const cookies = getCookies();
       const eaterType = cookies['user_eater_size'] || 'Medium'; // Default to Medium if not set
 
-      const response = await fetch('http://localhost:8000/vote', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/vote`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
