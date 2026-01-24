@@ -1,4 +1,4 @@
-'use client'; 
+'use client';
 
 import { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
@@ -37,18 +37,26 @@ export function LoginButton() {
 
     const handleLogout = async () => {
         try {
-            await authClient.signOut();
-            
-            // Clear the eater type cookie for privacy
-            Cookies.remove('user_eater_size', { path: '/' });
-            
+            // Clear local state immediately before async operations
             setIsLoggedIn(false);
             setIsOpen(false);
-            
-            // Refresh the page to reset all state
+
+            // Clear the eater type cookie for privacy
+            Cookies.remove('user_eater_size', { path: '/' });
+
+            // Try to sign out from Neon Auth (may fail in cross-origin scenarios)
+            try {
+                await authClient.signOut();
+            } catch (signOutError) {
+                console.warn('Neon Auth signOut failed (session may be cleared on server):', signOutError);
+            }
+
+            // Redirect to home page - this will trigger a fresh session check
             window.location.href = '/';
         } catch (error) {
             console.error('Logout failed:', error);
+            // Force redirect anyway
+            window.location.href = '/';
         }
     };
 
@@ -60,7 +68,7 @@ export function LoginButton() {
                 setIsOpen(false);
             }
         };
-        
+
         if (isOpen) {
             document.addEventListener('click', handleClickOutside);
         }
@@ -72,9 +80,9 @@ export function LoginButton() {
             {/* The User Icon (Trigger) */}
             <button onClick={toggleDropdown} className={styles.iconButton} aria-label="User menu">
                 {/* Simple SVG User Icon */}
-                <svg 
-                    width="24" height="24" viewBox="0 0 24 24" 
-                    fill="none" stroke="currentColor" strokeWidth="2" 
+                <svg
+                    width="24" height="24" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" strokeWidth="2"
                     strokeLinecap="round" strokeLinejoin="round"
                 >
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
