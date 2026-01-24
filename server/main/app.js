@@ -20,7 +20,10 @@ import voteRoutes from './routes/vote.js';
 
 const app = express()
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:3000',
+  origin: [
+    'https://your-main-domain.com',       // Your production domain
+    /^https:\/\/deal-checker-khizers-projects.*\.vercel\.app$/, // Matches ANY deployment from this project
+  'http://localhost:3000'],
   credentials: true
 }));
 const port = 8000
