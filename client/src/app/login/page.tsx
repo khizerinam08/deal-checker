@@ -62,6 +62,10 @@ export default function LoginPage() {
 
   const handleEaterType = async (sessionData: SessionData) => {
     console.log('[EaterType] Sending token:', sessionData?.token);
+    // Read cookie value and send in body (cross-origin cookies don't work reliably)
+    const cookieEaterType = getCookie('user_eater_size');
+    console.log('[EaterType] Cookie eaterType:', cookieEaterType);
+
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/eatertype`, {
       method: 'POST',
       credentials: 'include',
@@ -69,7 +73,7 @@ export default function LoginPage() {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${sessionData?.token || ''}`
       },
-      body: JSON.stringify({})
+      body: JSON.stringify({ eaterType: cookieEaterType || null })
     });
 
     if (!res.ok) throw new Error('Failed to sync eater type');

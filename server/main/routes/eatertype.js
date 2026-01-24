@@ -25,10 +25,11 @@ router.post('/', requireAuth, async (req, res) => {
         const userId = req.session.user.id;
         console.log(`[EaterType] Processing for user: ${userId}`);
 
-        // Read and validate the cookie
-        const rawEaterType = req.cookies['user_eater_size'];
+        // Read eaterType from request body (sent from frontend)
+        // Cross-origin cookies don't work reliably, so frontend reads cookie and sends in body
+        const rawEaterType = req.body.eaterType || req.cookies['user_eater_size'];
         const cookieEaterType = VALID_EATER_TYPES.includes(rawEaterType) ? rawEaterType : null;
-        console.log(`[EaterType] Cookie value: ${rawEaterType}, Valid: ${cookieEaterType}`);
+        console.log(`[EaterType] Received value: ${rawEaterType}, Valid: ${cookieEaterType}`);
 
         let finalEaterType = null; // Use null instead of 'None' for empty
 
