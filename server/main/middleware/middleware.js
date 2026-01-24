@@ -58,21 +58,17 @@ export const requireAuth = async (req, res, next) => {
         const sessionData = sessionResult.rows[0];
         const userId = sessionData.userId;
 
-        // Verify the user exists in our profiles table
+        // Try to get user profile (may not exist for new users)
         const userProfile = await db.query.profiles.findFirst({
             where: eq(profiles.id, userId)
         });
 
-        if (!userProfile) {
-            return res.status(401).json({ error: "Unauthorized - User not found in profiles" });
-        }
-
-        // Attach user info to request
+        // Attach user info to request (profile may be null for new users)
         req.session = {
             user: {
                 id: userId,
                 email: sessionData.email,
-                eaterType: userProfile.eaterType
+                eaterType: userProfile?.eaterType || null
             }
         };
 
