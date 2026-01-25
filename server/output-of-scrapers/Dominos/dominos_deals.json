@@ -3,20 +3,16 @@
         "deal_name": "EPIC Medium Deal",
         "price_pkr": 1200,
         "description": "1 Medium Pizza and 2 Small Drinks.",
-        "satiety_score": 29,
         "items_breakdown": [
             {
                 "item": "medium_pizza",
-                "qty": 1,
-                "score": 25
+                "qty": 1
             },
             {
                 "item": "drink_small",
-                "qty": 2,
-                "score": 4
+                "qty": 2
             }
         ],
-        "satiety_tier": "Standard Meal",
         "image_url": "https://www.dominos.com.pk/images/5e4bc3d0-c1f4-11f0-af5f-eb951f734cf1-More-Value-Medium-2025-11-15072614.jpg",
         "product_url": "https://www.dominos.com.pk/menu#combo_EPICMediumDeal_224",
         "source": "Dominos PK"
@@ -25,20 +21,16 @@
         "deal_name": "EPIC Double Medium",
         "price_pkr": 2200,
         "description": "2 Medium Classic Pizzas + FREE 1.5 LTR Drink",
-        "satiety_score": 54,
         "items_breakdown": [
             {
                 "item": "medium_pizza",
-                "qty": 2,
-                "score": 50
+                "qty": 2
             },
             {
                 "item": "drink_1.5l",
-                "qty": 1,
-                "score": 4
+                "qty": 1
             }
         ],
-        "satiety_tier": "Heavy Meal (Sharing)",
         "image_url": "https://www.dominos.com.pk/images/31dc6650-cf01-11f0-889d-554d5fcd3db8-Epic-Double-Medium-2025-12-01220048.jpg",
         "product_url": "https://www.dominos.com.pk/menu#combo_EPICDoubleMedium_254",
         "source": "Dominos PK"
@@ -47,20 +39,16 @@
         "deal_name": "EPIC Large Deal",
         "price_pkr": 1700,
         "description": "1 Large Pizza and 1.5 Ltr Drink.",
-        "satiety_score": 44,
         "items_breakdown": [
             {
                 "item": "large_pizza",
-                "qty": 1,
-                "score": 40
+                "qty": 1
             },
             {
                 "item": "drink_1.5l",
-                "qty": 1,
-                "score": 4
+                "qty": 1
             }
         ],
-        "satiety_tier": "Heavy Meal (Sharing)",
         "image_url": "https://www.dominos.com.pk/images/6131f3d0-c1f4-11f0-aa26-53acaeb3303d-More-Value-Large-2025-11-15072619.jpg",
         "product_url": "https://www.dominos.com.pk/menu#combo_EPICLargeDeal_225",
         "source": "Dominos PK"
@@ -69,20 +57,16 @@
         "deal_name": "EPIC Double Large",
         "price_pkr": 3200,
         "description": "2 Large Classic Pizzas + FREE 1.5 LTR Drink",
-        "satiety_score": 84,
         "items_breakdown": [
             {
                 "item": "large_pizza",
-                "qty": 2,
-                "score": 80
+                "qty": 2
             },
             {
                 "item": "drink_1.5l",
-                "qty": 1,
-                "score": 4
+                "qty": 1
             }
         ],
-        "satiety_tier": "Heavy Meal (Sharing)",
         "image_url": "https://www.dominos.com.pk/images/6131f3d0-c1f4-11f0-aa26-53acaeb3303d-More-Value-Double-Large-2025-11-15072619.jpg",
         "product_url": "https://www.dominos.com.pk/menu#combo_EPICDoubleLarge_255",
         "source": "Dominos PK"
@@ -91,25 +75,20 @@
         "deal_name": "Gathering For Four",
         "price_pkr": 3700,
         "description": "2 Medium Classic Pizza’s + 2 Sides + 1.5 LTR Drink.",
-        "satiety_score": 70,
         "items_breakdown": [
             {
                 "item": "medium_pizza",
-                "qty": 2,
-                "score": 50
+                "qty": 2
             },
             {
                 "item": "side",
-                "qty": 2,
-                "score": 16
+                "qty": 2
             },
             {
                 "item": "drink_1.5l",
-                "qty": 1,
-                "score": 4
+                "qty": 1
             }
         ],
-        "satiety_tier": "Heavy Meal (Sharing)",
         "image_url": "https://www.dominos.com.pk/images/31dc6650-cf01-11f0-889d-554d5fcd3db8-Gathering-for-4-50kb-2025-12-01220048.jpg",
         "product_url": "https://www.dominos.com.pk/menu#combo_GatheringForFour_258",
         "source": "Dominos PK"
@@ -118,25 +97,20 @@
         "deal_name": "Gathering For Six",
         "price_pkr": 5700,
         "description": "2 Large Classic Pizza’s + 2 Sides + 1.5 LTR Drink.",
-        "satiety_score": 100,
         "items_breakdown": [
             {
                 "item": "large_pizza",
-                "qty": 2,
-                "score": 80
+                "qty": 2
             },
             {
                 "item": "side",
-                "qty": 2,
-                "score": 16
+                "qty": 2
             },
             {
                 "item": "drink_1.5l",
-                "qty": 1,
-                "score": 4
+                "qty": 1
             }
         ],
-        "satiety_tier": "Heavy Meal (Sharing)",
         "image_url": "https://www.dominos.com.pk/images/668f90a0-715c-11f0-87f8-ed6612fe6870-Gathering-for-6-2025-08-04175652.jpg",
         "product_url": "https://www.dominos.com.pk/menu#combo_GatheringForSix_259",
         "source": "Dominos PK"
@@ -145,25 +119,20 @@
         "deal_name": "Pizza N Wings",
         "price_pkr": 1750,
         "description": "1 Medium Classic Pizza’s + 6 pcs Wings + 2 Small Drinks.",
-        "satiety_score": 41,
         "items_breakdown": [
             {
                 "item": "medium_pizza",
-                "qty": 1,
-                "score": 25
+                "qty": 1
             },
             {
                 "item": "wings_6pcs",
-                "qty": 1,
-                "score": 12
+                "qty": 1
             },
             {
                 "item": "drink_small",
-                "qty": 2,
-                "score": 4
+                "qty": 2
             }
         ],
-        "satiety_tier": "Heavy Meal (Sharing)",
         "image_url": "https://www.dominos.com.pk/images/31dc3f40-cf01-11f0-9f6c-b5f03bfb087b-Pizza-n-Wing-50kb-2025-12-01220048.jpg",
         "product_url": "https://www.dominos.com.pk/menu#combo_PizzaNWings_272",
         "source": "Dominos PK"
@@ -172,20 +141,16 @@
         "deal_name": "Loaded Pizza Roll + Dip + 345ml Drink",
         "price_pkr": 600,
         "description": "Loaded Pizza Roll + Dip + 345ml Drink.",
-        "satiety_score": 14,
         "items_breakdown": [
             {
                 "item": "loaded_pizza_roll",
-                "qty": 1,
-                "score": 12
+                "qty": 1
             },
             {
                 "item": "drink_small",
-                "qty": 1,
-                "score": 2
+                "qty": 1
             }
         ],
-        "satiety_tier": "Snack / Light",
         "image_url": "https://www.dominos.com.pk/images/3afdb9e0-a0ef-11f0-ba34-83c0e14f2dfc-Pizza-RollSting-50kb-2025-10-04065619.jpg",
         "product_url": "https://www.dominos.com.pk/menu#combo_LoadedPizzaRoll+Dip+345mlDrink_270",
         "source": "Dominos PK"
@@ -194,20 +159,16 @@
         "deal_name": "Small Pizzas Special",
         "price_pkr": 850,
         "description": "2 Small Pizzas",
-        "satiety_score": 45,
         "items_breakdown": [
             {
                 "item": "small_pizza",
-                "qty": 1,
-                "score": 15
+                "qty": 1
             },
             {
                 "item": "small_pizza",
-                "qty": 2,
-                "score": 30
+                "qty": 2
             }
         ],
-        "satiety_tier": "Heavy Meal (Sharing)",
         "image_url": "https://www.dominos.com.pk/images/3f593cc0-591a-11f0-bb47-e96e556c89da-small-pizzas-icons-2025-07-04210251.jpg",
         "product_url": "https://www.dominos.com.pk/menu#combo_SmallPizzasSpecial_214",
         "source": "Dominos PK"
@@ -216,25 +177,20 @@
         "deal_name": "Too Loaded For Two",
         "price_pkr": 1250,
         "description": "2 Pizza rolls (Any flavor) + 2 drinks + 1 lave cake.",
-        "satiety_score": 33,
         "items_breakdown": [
             {
                 "item": "pizza_roll",
-                "qty": 2,
-                "score": 24
+                "qty": 1
             },
             {
                 "item": "drink_small",
-                "qty": 2,
-                "score": 4
+                "qty": 2
             },
             {
                 "item": "dessert",
-                "qty": 1,
-                "score": 5
+                "qty": 1
             }
         ],
-        "satiety_tier": "Heavy Meal (Sharing)",
         "image_url": "https://www.dominos.com.pk/images/604c63f0-b01b-11f0-a868-5379ebd69104-2-Loaded-for-2-50kb-2025-10-23142007.jpg",
         "product_url": "https://www.dominos.com.pk/menu#combo_TooLoadedForTwo_283",
         "source": "Dominos PK"
@@ -243,20 +199,16 @@
         "deal_name": "Meltz + 345ml Drink",
         "price_pkr": 650,
         "description": "Meltz + 345ml Drink.",
-        "satiety_score": 14,
         "items_breakdown": [
             {
                 "item": "meltz",
-                "qty": 1,
-                "score": 12
+                "qty": 1
             },
             {
                 "item": "drink_small",
-                "qty": 1,
-                "score": 2
+                "qty": 1
             }
         ],
-        "satiety_tier": "Snack / Light",
         "image_url": "https://www.dominos.com.pk/images/3f5963d0-591a-11f0-aab7-d5d4a2aef323-Meltz-Drink-2025-07-04210251.jpg",
         "product_url": "https://www.dominos.com.pk/menu#combo_Meltz+345mlDrink_242",
         "source": "Dominos PK"
@@ -265,15 +217,12 @@
         "deal_name": "Cheese Burst Large",
         "price_pkr": 2650,
         "description": "1 Large Cheese Burst Pizza with Large Drink..",
-        "satiety_score": 2,
         "items_breakdown": [
             {
                 "item": "drink_small",
-                "qty": 1,
-                "score": 2
+                "qty": 1
             }
         ],
-        "satiety_tier": "Snack / Light",
         "image_url": "https://www.dominos.com.pk/images/9ddc97c0-887b-11f0-98a1-ad98994822e0-CheeseBurst50-2025-09-03040815.jpg",
         "product_url": "https://www.dominos.com.pk/menu#combo_CheeseBurstLarge_227",
         "source": "Dominos PK"
@@ -282,15 +231,12 @@
         "deal_name": "Double Melt Deal Large",
         "price_pkr": 3350,
         "description": "1 Large Double Melt Pizza with Large Drink.",
-        "satiety_score": 2,
         "items_breakdown": [
             {
                 "item": "drink_small",
-                "qty": 1,
-                "score": 2
+                "qty": 1
             }
         ],
-        "satiety_tier": "Snack / Light",
         "image_url": "https://www.dominos.com.pk/images/5fb0e9b0-887b-11f0-bf20-79fdab845f60-DoubleMelt50-2025-09-03040631.jpg",
         "product_url": "https://www.dominos.com.pk/menu#combo_DoubleMeltDealLarge_122",
         "source": "Dominos PK"
@@ -299,20 +245,16 @@
         "deal_name": "Super Loaded Large",
         "price_pkr": 2200,
         "description": "1 Super Loaded Large Pizza + 1.5 Ltr Drink",
-        "satiety_score": 44,
         "items_breakdown": [
             {
                 "item": "large_pizza",
-                "qty": 1,
-                "score": 40
+                "qty": 1
             },
             {
                 "item": "drink_1.5l",
-                "qty": 1,
-                "score": 4
+                "qty": 1
             }
         ],
-        "satiety_tier": "Heavy Meal (Sharing)",
         "image_url": "https://www.dominos.com.pk/images/668fb7b0-715c-11f0-86dc-479f755ff2e1-Superloaded-deal-2025-08-04175652.jpg",
         "product_url": "https://www.dominos.com.pk/menu#combo_SuperLoadedLarge_229",
         "source": "Dominos PK"
@@ -321,25 +263,20 @@
         "deal_name": "MyBox Pizza + 1 Side",
         "price_pkr": 800,
         "description": "Create your own Combo by selecting from a variety of Pizzas, Sides, Desserts, and Chicken.",
-        "satiety_score": 21,
         "items_breakdown": [
             {
                 "item": "side",
-                "qty": 1,
-                "score": 8
+                "qty": 1
             },
             {
                 "item": "side",
-                "qty": 1,
-                "score": 8
+                "qty": 1
             },
             {
                 "item": "dessert",
-                "qty": 1,
-                "score": 5
+                "qty": 1
             }
         ],
-        "satiety_tier": "Standard Meal",
         "image_url": "https://www.dominos.com.pk/images/4bce9590-5924-11f0-8431-8133e66c512f-mybox-pizza-1-side-2025-07-04221447.jpg",
         "product_url": "https://www.dominos.com.pk/menu#combo_MyBoxPizza+1Side_238",
         "source": "Dominos PK"
@@ -348,30 +285,24 @@
         "deal_name": "MyBox Pizza + 1 Side + Drink",
         "price_pkr": 900,
         "description": "Create your own Combo by selecting from a variety of Pizzas, Sides, Desserts, Chicken & Drink.",
-        "satiety_score": 23,
         "items_breakdown": [
             {
                 "item": "side",
-                "qty": 1,
-                "score": 8
+                "qty": 1
             },
             {
                 "item": "side",
-                "qty": 1,
-                "score": 8
+                "qty": 1
             },
             {
                 "item": "drink_small",
-                "qty": 1,
-                "score": 2
+                "qty": 1
             },
             {
                 "item": "dessert",
-                "qty": 1,
-                "score": 5
+                "qty": 1
             }
         ],
-        "satiety_tier": "Standard Meal",
         "image_url": "https://www.dominos.com.pk/images/3f593cc0-591a-11f0-bb47-e96e556c89da-mybox-pizza-1-side-drink-2025-07-04210251.jpg",
         "product_url": "https://www.dominos.com.pk/menu#combo_MyBoxPizza+1Side+Drink_239",
         "source": "Dominos PK"
@@ -380,25 +311,20 @@
         "deal_name": "MyBox Pizza + 2 Sides",
         "price_pkr": 1100,
         "description": "Create your own Combo by selecting from a variety of Pizzas, Sides, Desserts, Chicken.",
-        "satiety_score": 29,
         "items_breakdown": [
             {
                 "item": "side",
-                "qty": 2,
-                "score": 16
+                "qty": 2
             },
             {
                 "item": "side",
-                "qty": 1,
-                "score": 8
+                "qty": 1
             },
             {
                 "item": "dessert",
-                "qty": 1,
-                "score": 5
+                "qty": 1
             }
         ],
-        "satiety_tier": "Standard Meal",
         "image_url": "https://www.dominos.com.pk/images/36db1480-596d-11f0-844b-87be54638779-mybox-pizza-2-sides-2025-07-05065645.jpg",
         "product_url": "https://www.dominos.com.pk/menu#combo_MyBoxPizza+2Sides_182",
         "source": "Dominos PK"
@@ -407,30 +333,24 @@
         "deal_name": "MyBox Pizza + 2 Sides with Drink",
         "price_pkr": 1200,
         "description": "Create your own Combo by selecting from a variety of Pizzas, Sides, Desserts, Chicken & Drink.",
-        "satiety_score": 31,
         "items_breakdown": [
             {
                 "item": "side",
-                "qty": 2,
-                "score": 16
+                "qty": 2
             },
             {
                 "item": "side",
-                "qty": 1,
-                "score": 8
+                "qty": 1
             },
             {
                 "item": "drink_small",
-                "qty": 1,
-                "score": 2
+                "qty": 1
             },
             {
                 "item": "dessert",
-                "qty": 1,
-                "score": 5
+                "qty": 1
             }
         ],
-        "satiety_tier": "Heavy Meal (Sharing)",
         "image_url": "https://www.dominos.com.pk/images/3f5963d0-591a-11f0-aab7-d5d4a2aef323-Mybox-Pizza-2-side-drink-2025-07-04210251.jpg",
         "product_url": "https://www.dominos.com.pk/menu#combo_MyBoxPizza+2SideswithDrink_204",
         "source": "Dominos PK"
@@ -439,30 +359,24 @@
         "deal_name": "MyBox Meltz + 1 Side + Dip",
         "price_pkr": 800,
         "description": "Create your own Combo by selecting from a variety of Meltz, Sides, Desserts, and Chicken.",
-        "satiety_score": 33,
         "items_breakdown": [
             {
                 "item": "meltz",
-                "qty": 1,
-                "score": 12
+                "qty": 1
             },
             {
                 "item": "side",
-                "qty": 1,
-                "score": 8
+                "qty": 1
             },
             {
                 "item": "side",
-                "qty": 1,
-                "score": 8
+                "qty": 1
             },
             {
                 "item": "dessert",
-                "qty": 1,
-                "score": 5
+                "qty": 1
             }
         ],
-        "satiety_tier": "Heavy Meal (Sharing)",
         "image_url": "https://www.dominos.com.pk/images/3f5963d0-591a-11f0-aab7-d5d4a2aef323-mybox-meltz-1-side-2025-07-04210251.jpg",
         "product_url": "https://www.dominos.com.pk/menu#combo_MyBoxMeltz+1Side+Dip_209",
         "source": "Dominos PK"
@@ -471,35 +385,28 @@
         "deal_name": "MyBox Meltz + 1 Side + Dip + Drink",
         "price_pkr": 900,
         "description": "Create your own Combo by selecting from a variety of Meltz, Sides, Desserts, Chicken & Drink.",
-        "satiety_score": 35,
         "items_breakdown": [
             {
                 "item": "meltz",
-                "qty": 1,
-                "score": 12
+                "qty": 1
             },
             {
                 "item": "side",
-                "qty": 1,
-                "score": 8
+                "qty": 1
             },
             {
                 "item": "side",
-                "qty": 1,
-                "score": 8
+                "qty": 1
             },
             {
                 "item": "drink_small",
-                "qty": 1,
-                "score": 2
+                "qty": 1
             },
             {
                 "item": "dessert",
-                "qty": 1,
-                "score": 5
+                "qty": 1
             }
         ],
-        "satiety_tier": "Heavy Meal (Sharing)",
         "image_url": "https://www.dominos.com.pk/images/3f593cc0-591a-11f0-b3ed-e56db109ea78-mybox-meltz-1-side-drink-2025-07-04210251.jpg",
         "product_url": "https://www.dominos.com.pk/menu#combo_MyBoxMeltz+1Side+Dip+Drink_211",
         "source": "Dominos PK"
@@ -508,30 +415,24 @@
         "deal_name": "MyBox Meltz + 2 Sides + Dip",
         "price_pkr": 1100,
         "description": "Create your own Combo by selecting from a variety of Meltz, Sides, Desserts, Chicken.",
-        "satiety_score": 41,
         "items_breakdown": [
             {
                 "item": "meltz",
-                "qty": 1,
-                "score": 12
+                "qty": 1
             },
             {
                 "item": "side",
-                "qty": 2,
-                "score": 16
+                "qty": 2
             },
             {
                 "item": "side",
-                "qty": 1,
-                "score": 8
+                "qty": 1
             },
             {
                 "item": "dessert",
-                "qty": 1,
-                "score": 5
+                "qty": 1
             }
         ],
-        "satiety_tier": "Heavy Meal (Sharing)",
         "image_url": "https://www.dominos.com.pk/images/36d4fa00-596d-11f0-a355-9be03822ebaf-mybox-meltz-2-side-2025-07-05065645.jpg",
         "product_url": "https://www.dominos.com.pk/menu#combo_MyBoxMeltz+2Sides+Dip_240",
         "source": "Dominos PK"
@@ -540,35 +441,28 @@
         "deal_name": "MyBox Meltz + 2 Sides + Dip + Drink",
         "price_pkr": 1200,
         "description": "Create your own Combo by selecting from a variety of Meltz, Sides, Desserts, Chicken & Drink.",
-        "satiety_score": 43,
         "items_breakdown": [
             {
                 "item": "meltz",
-                "qty": 1,
-                "score": 12
+                "qty": 1
             },
             {
                 "item": "side",
-                "qty": 2,
-                "score": 16
+                "qty": 2
             },
             {
                 "item": "side",
-                "qty": 1,
-                "score": 8
+                "qty": 1
             },
             {
                 "item": "drink_small",
-                "qty": 1,
-                "score": 2
+                "qty": 1
             },
             {
                 "item": "dessert",
-                "qty": 1,
-                "score": 5
+                "qty": 1
             }
         ],
-        "satiety_tier": "Heavy Meal (Sharing)",
         "image_url": "https://www.dominos.com.pk/images/3f593cc0-591a-11f0-bb47-e96e556c89da-mybox-meltz-2-side-drink-2025-07-04210251.jpg",
         "product_url": "https://www.dominos.com.pk/menu#combo_MyBoxMeltz+2Sides+Dip+Drink_241",
         "source": "Dominos PK"
@@ -577,30 +471,24 @@
         "deal_name": "MyBox Loaded Pizza Roll+ 1 Side + Dip",
         "price_pkr": 800,
         "description": "Create your own Combo by selecting from a variety of Loaded Pizza Rolls, Sides, Desserts, and Chicken.",
-        "satiety_score": 33,
         "items_breakdown": [
             {
                 "item": "loaded_pizza_roll",
-                "qty": 1,
-                "score": 12
+                "qty": 1
             },
             {
                 "item": "side",
-                "qty": 1,
-                "score": 8
+                "qty": 1
             },
             {
                 "item": "side",
-                "qty": 1,
-                "score": 8
+                "qty": 1
             },
             {
                 "item": "dessert",
-                "qty": 1,
-                "score": 5
+                "qty": 1
             }
         ],
-        "satiety_tier": "Heavy Meal (Sharing)",
         "image_url": "https://www.dominos.com.pk/images/3f5963d0-591a-11f0-aab7-d5d4a2aef323-Mybox-Pizza-Roll-1-side-2025-07-04210251.jpg",
         "product_url": "https://www.dominos.com.pk/menu#combo_MyBoxLoadedPizzaRoll+1Side+Dip_265",
         "source": "Dominos PK"
@@ -609,35 +497,28 @@
         "deal_name": "MyBox Loaded Pizza Roll + 1 Side + Dip + Drink",
         "price_pkr": 900,
         "description": "Create your own Combo by selecting from a variety of Loaded Pizza Rolls, Sides, Desserts, Chicken & Drink.",
-        "satiety_score": 35,
         "items_breakdown": [
             {
                 "item": "loaded_pizza_roll",
-                "qty": 1,
-                "score": 12
+                "qty": 1
             },
             {
                 "item": "side",
-                "qty": 1,
-                "score": 8
+                "qty": 1
             },
             {
                 "item": "side",
-                "qty": 1,
-                "score": 8
+                "qty": 1
             },
             {
                 "item": "drink_small",
-                "qty": 1,
-                "score": 2
+                "qty": 1
             },
             {
                 "item": "dessert",
-                "qty": 1,
-                "score": 5
+                "qty": 1
             }
         ],
-        "satiety_tier": "Heavy Meal (Sharing)",
         "image_url": "https://www.dominos.com.pk/images/36d4abe0-596d-11f0-bf9d-4ffb66fba2c4-Mybox-Pizza-Roll-1-side-drink-2025-07-05065645.jpg",
         "product_url": "https://www.dominos.com.pk/menu#combo_MyBoxLoadedPizzaRoll+1Side+Dip+Drink_266",
         "source": "Dominos PK"
@@ -646,30 +527,24 @@
         "deal_name": "MyBox Loaded Pizza Roll + 2 Sides + Dip",
         "price_pkr": 1100,
         "description": "Create your own Combo by selecting from a variety of Loaded Pizza Rolls, Sides, Desserts, Chicken.",
-        "satiety_score": 41,
         "items_breakdown": [
             {
                 "item": "loaded_pizza_roll",
-                "qty": 1,
-                "score": 12
+                "qty": 1
             },
             {
                 "item": "side",
-                "qty": 2,
-                "score": 16
+                "qty": 2
             },
             {
                 "item": "side",
-                "qty": 1,
-                "score": 8
+                "qty": 1
             },
             {
                 "item": "dessert",
-                "qty": 1,
-                "score": 5
+                "qty": 1
             }
         ],
-        "satiety_tier": "Heavy Meal (Sharing)",
         "image_url": "https://www.dominos.com.pk/images/3f593cc0-591a-11f0-bb47-e96e556c89da-Mybox-Pizzaroll-2-side-2025-07-04210251.jpg",
         "product_url": "https://www.dominos.com.pk/menu#combo_MyBoxLoadedPizzaRoll+2Sides+Dip_267",
         "source": "Dominos PK"
@@ -678,35 +553,28 @@
         "deal_name": "MyBox Loaded Pizza Roll + 2 Sides + Dip + Drink",
         "price_pkr": 1200,
         "description": "Create your own Combo by selecting from a variety of Loaded Pizza Rolls, Sides, Desserts, Chicken & Drink.",
-        "satiety_score": 43,
         "items_breakdown": [
             {
                 "item": "loaded_pizza_roll",
-                "qty": 1,
-                "score": 12
+                "qty": 1
             },
             {
                 "item": "side",
-                "qty": 2,
-                "score": 16
+                "qty": 2
             },
             {
                 "item": "side",
-                "qty": 1,
-                "score": 8
+                "qty": 1
             },
             {
                 "item": "drink_small",
-                "qty": 1,
-                "score": 2
+                "qty": 1
             },
             {
                 "item": "dessert",
-                "qty": 1,
-                "score": 5
+                "qty": 1
             }
         ],
-        "satiety_tier": "Heavy Meal (Sharing)",
         "image_url": "https://www.dominos.com.pk/images/36db1480-596d-11f0-99b9-53c8b7f1ae77-Mybox-Pizza--roll-2-side-drink-2025-07-05065645.jpg",
         "product_url": "https://www.dominos.com.pk/menu#combo_MyBoxLoadedPizzaRoll+2Sides+Dip+Drink_268",
         "source": "Dominos PK"

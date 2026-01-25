@@ -21,7 +21,7 @@ import voteRoutes from './routes/vote.js';
 const app = express()
 app.use(cors({
   origin: [
-    'https://worth-it-two.vercel.app',
+    'https://worth-it-one.vercel.app',
   ],
   credentials: true
 }));
