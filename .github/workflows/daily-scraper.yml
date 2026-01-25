@@ -1,0 +1,32 @@
+name: Daily Dominos Scraper
+
+on:
+  schedule:
+    # Runs at 00:00 UTC every day
+    - cron: '0 0 * * *'
+  # Allows you to run this manually from the Actions tab for testing
+  workflow_dispatch:
+
+jobs:
+  scrape-and-update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          pip install -r server/scrapers/Dominos/requirements.txt
+
+      - name: Run Scraper
+        env:
+          # This pulls the variable from your GitHub Secrets
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          python server/scrapers/Dominos/scraper-for-dominos.py
