@@ -59,21 +59,39 @@ Authenticated users can submit reviews for any deal, rating:
 
 ### 4. Personalized Score Calculation
 
-The app uses a **blended scoring algorithm** that:
+The app uses a **blended scoring algorithm** to simulate how a deal would feel to *you*, even if people with different appetite sizes reviewed it.
 
+**The Problem:** A "Small" eater might rate a single burger meal **10/10** because it filled them up. A "Large" eater paying the same price might still be hungry, finding it poor value.
+
+**The Solution:** We mathematically project scores across eater types so you get a personalized rating.
+
+### How It Works
+
+**1. Capacity Ratios**
+We define how much food each group typically needs:
+*   **Small**: `0.67` (Needs ~67% of a medium meal)
+*   **Medium**: `1.00` (Baseline)
+*   **Large**: `1.33` (Needs ~133% of a medium meal)
+
+**2. The Formula**
+When a user reviews a deal, we adjust their score for *your* capacity:
+
+```math
+ProjectedScore = ReviewerScore × (ReviewerCapacity / YourCapacity)
 ```
-For each eater type with votes:
-  → Calculate average score from that type
-  → Project the score to target user's capacity: ProjectedScore = AvgScore × (SourceCapacity / TargetCapacity)
-  → Apply confidence weighting (100% for same type, 50% for other types)
 
-Final Score = WeightedSum / TotalWeight (capped at 10.0)
-```
+**3. Weighted Consensus**
+We then combine all scores, but we trust your own "tribe" more:
+*   **Same Type Reviews**: 100% Weight (Most trusted)
+*   **Different Type Reviews**: 50% Weight (Trusted, but less)
 
-This ensures:
-- Direct peer reviews carry the most weight
-- Reviews from other eater types still contribute (adjusted mathematically)
-- Scores are personalized but never starved of data
+### 💡 Real World Example
+> You are a **Large Eater** (Capacity 1.33).
+> A **Small Eater** (Capacity 0.67) rates a deal **10/10**.
+
+Ideally, that meal is too small for you. The algorithm knows this:
+*   **Calculation**: `10 × (0.67 / 1.33) = 5.0`
+*   **Result**: You see a score of **5.0/10**, warning you that while it's great for them, it's not enough for you.
 
 ---
 
