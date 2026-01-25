@@ -43,7 +43,9 @@ export function EaterTypeModal({ initialOpen = true, onClose }: Props) {
 
     // Sync with backend if user is logged in
     try {
-      const session = await authClient.getSession();
+      const session = await authClient.getSession({
+        query: { disableCookieCache: true }
+      });
       if (session?.data?.user?.id) {
         await fetch(`${process.env.NEXT_PUBLIC_API_URL}/eatertype`, {
           method: 'POST',

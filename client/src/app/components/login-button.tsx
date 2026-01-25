@@ -14,11 +14,15 @@ export function LoginButton() {
     const [isLoggingOut, setIsLoggingOut] = useState(false);
     const pathName = usePathname();
 
-    // Check auth state on mount
+    // Check auth state on mount - disable cookie cache to get fresh state
     useEffect(() => {
         const checkAuth = async () => {
             try {
-                const session = await authClient.getSession();
+                // Use disableCookieCache to bypass Better Auth's cookie cache
+                // This ensures we always get the fresh session state from the server
+                const session = await authClient.getSession({
+                    query: { disableCookieCache: true }
+                });
                 setIsLoggedIn(!!session?.data?.user);
             } catch {
                 setIsLoggedIn(false);
