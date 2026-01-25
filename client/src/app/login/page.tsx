@@ -12,42 +12,120 @@ const getCookie = (name: string) => {
   return match ? match[2] : null;
 };
 
+type TabType = 'login' | 'signup';
+
+interface FormErrors {
+  name?: string;
+  email?: string;
+  password?: string;
+  confirmPassword?: string;
+  general?: string;
+}
+
 export default function LoginPage() {
+  const [activeTab, setActiveTab] = useState<TabType>('login');
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState<FormErrors>({});
   const router = useRouter();
 
-  const handleLogin = async () => {
-    const { data, error } = await authClient.signIn.email({ email, password });
-    console.log('[Login] SignIn response:', JSON.stringify(data, null, 2));
-    if (data) {
-      try {
-        await handleEaterType(data);
-        router.push('/');
-      } catch (e) {
-        console.error("Sync error:", e);
-        router.push('/');
+  // Clear errors when switching tabs
+  const handleTabChange = (tab: TabType) => {
+    setActiveTab(tab);
+    setErrors({});
+  };
+
+  // Validate form inputs
+  const validateForm = (): boolean => {
+    const newErrors: FormErrors = {};
+
+    if (activeTab === 'signup' && !name.trim()) {
+      newErrors.name = 'Name is required';
+    }
+
+    if (!email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      newErrors.email = 'Please enter a valid email';
+    }
+
+    if (!password) {
+      newErrors.password = 'Password is required';
+    } else if (password.length < 6) {
+      newErrors.password = 'Password must be at least 6 characters';
+    }
+
+    if (activeTab === 'signup') {
+      if (!confirmPassword) {
+        newErrors.confirmPassword = 'Please confirm your password';
+      } else if (password !== confirmPassword) {
+        newErrors.confirmPassword = 'Passwords do not match';
       }
     }
-    else alert(error?.message || "Login failed");
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleLogin = async () => {
+    if (!validateForm()) return;
+
+    setIsLoading(true);
+    setErrors({});
+
+    try {
+      const { data, error } = await authClient.signIn.email({ email, password });
+      console.log('[Login] SignIn response:', JSON.stringify(data, null, 2));
+      if (data) {
+        try {
+          await handleEaterType(data);
+          router.push('/');
+        } catch (e) {
+          console.error("Sync error:", e);
+          router.push('/');
+        }
+      } else {
+        setErrors({ general: error?.message || "Invalid email or password" });
+      }
+    } catch {
+      setErrors({ general: "An error occurred. Please try again." });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleSignUp = async () => {
-    const { data, error } = await authClient.signUp.email({
-      email,
-      password,
-      name: "User Name"
-    });
-    if (data) {
-      try {
-        await handleEaterType(data);
-        router.push('/');
-      } catch (e) {
-        console.error("Sync error:", e);
-        router.push('/');
+    if (!validateForm()) return;
+
+    setIsLoading(true);
+    setErrors({});
+
+    try {
+      const { data, error } = await authClient.signUp.email({
+        email,
+        password,
+        name: name.trim()
+      });
+      if (data) {
+        try {
+          await handleEaterType(data);
+          router.push('/');
+        } catch (e) {
+          console.error("Sync error:", e);
+          router.push('/');
+        }
+      } else {
+        setErrors({ general: error?.message || "Signup failed. Please try again." });
       }
+    } catch {
+      setErrors({ general: "An error occurred. Please try again." });
+    } finally {
+      setIsLoading(false);
     }
-    else alert(error?.message || "Signup failed");
   };
 
   interface User {
@@ -91,38 +169,180 @@ export default function LoginPage() {
     return data;
   }
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (activeTab === 'login') {
+      handleLogin();
+    } else {
+      handleSignUp();
+    }
+  };
+
   return (
     <div className={styles.container}>
-      {/* WorthIt Branding */}
-      <Link href="/" className={styles.logo}>
-        <span className={styles.logoIcon}>?</span>
-        <span className={styles.logoText}>WorthIt</span>
-      </Link>
+     
 
       {/* Form Card */}
       <div className={styles.formCard}>
-        <h1 className={styles.title}>Welcome</h1>
-
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email"
-          className={styles.inputField}
-        />
-
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
-          className={styles.inputField}
-        />
-
-        <div className={styles.buttonGroup}>
-          <button onClick={handleLogin} className={styles.loginBtn}>Login</button>
-          <button onClick={handleSignUp} className={styles.signupBtn}>Sign Up</button>
+        {/* Tab Navigation */}
+        <div className={styles.tabContainer}>
+          <button
+            type="button"
+            className={`${styles.tab} ${activeTab === 'login' ? styles.tabActive : ''}`}
+            onClick={() => handleTabChange('login')}
+          >
+            Sign In
+          </button>
+          <button
+            type="button"
+            className={`${styles.tab} ${activeTab === 'signup' ? styles.tabActive : ''}`}
+            onClick={() => handleTabChange('signup')}
+          >
+            Create Account
+          </button>
         </div>
+
+        {/* General Error Message */}
+        {errors.general && (
+          <div className={styles.generalError}>
+            {errors.general}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className={styles.form}>
+          {/* Name Field (Signup only) */}
+          {activeTab === 'signup' && (
+            <div className={styles.inputGroup}>
+              <label htmlFor="name" className={styles.inputLabel}>
+                Full Name
+              </label>
+              <input
+                id="name"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Enter your full name"
+                className={`${styles.inputField} ${errors.name ? styles.inputError : ''}`}
+                disabled={isLoading}
+              />
+              {errors.name && <span className={styles.errorMessage}>{errors.name}</span>}
+            </div>
+          )}
+
+          {/* Email Field */}
+          <div className={styles.inputGroup}>
+            <label htmlFor="email" className={styles.inputLabel}>
+              Email Address
+            </label>
+            <input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@example.com"
+              className={`${styles.inputField} ${errors.email ? styles.inputError : ''}`}
+              disabled={isLoading}
+            />
+            {errors.email && <span className={styles.errorMessage}>{errors.email}</span>}
+          </div>
+
+          {/* Password Field */}
+          <div className={styles.inputGroup}>
+            <label htmlFor="password" className={styles.inputLabel}>
+              Password
+            </label>
+            <div className={styles.passwordWrapper}>
+              <input
+                id="password"
+                type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter your password"
+                className={`${styles.inputField} ${styles.passwordInput} ${errors.password ? styles.inputError : ''}`}
+                disabled={isLoading}
+              />
+              <button
+                type="button"
+                className={styles.passwordToggle}
+                onClick={() => setShowPassword(!showPassword)}
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+              >
+                {showPassword ? (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                    <line x1="1" y1="1" x2="23" y2="23" />
+                  </svg>
+                ) : (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                )}
+              </button>
+            </div>
+            {errors.password && <span className={styles.errorMessage}>{errors.password}</span>}
+          </div>
+
+          {/* Confirm Password Field (Signup only) */}
+          {activeTab === 'signup' && (
+            <div className={styles.inputGroup}>
+              <label htmlFor="confirmPassword" className={styles.inputLabel}>
+                Confirm Password
+              </label>
+              <input
+                id="confirmPassword"
+                type={showPassword ? 'text' : 'password'}
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="Confirm your password"
+                className={`${styles.inputField} ${errors.confirmPassword ? styles.inputError : ''}`}
+                disabled={isLoading}
+              />
+              {errors.confirmPassword && <span className={styles.errorMessage}>{errors.confirmPassword}</span>}
+            </div>
+          )}
+
+          {/* Forgot Password (Login only) */}
+          {activeTab === 'login' && (
+            <div className={styles.forgotPasswordWrapper}>
+              <button type="button" className={styles.forgotPassword}>
+                Forgot password?
+              </button>
+            </div>
+          )}
+
+          {/* Submit Button */}
+          <button
+            type="submit"
+            className={`${styles.submitBtn} ${isLoading ? styles.loadingBtn : ''}`}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <span className={styles.spinner}></span>
+            ) : (
+              activeTab === 'login' ? 'Sign In' : 'Create Account'
+            )}
+          </button>
+        </form>
+
+        {/* Switch Tab Prompt */}
+        <p className={styles.switchPrompt}>
+          {activeTab === 'login' ? (
+            <>
+              Don&apos;t have an account?{' '}
+              <button type="button" className={styles.switchLink} onClick={() => handleTabChange('signup')}>
+                Create one
+              </button>
+            </>
+          ) : (
+            <>
+              Already have an account?{' '}
+              <button type="button" className={styles.switchLink} onClick={() => handleTabChange('login')}>
+                Sign in
+              </button>
+            </>
+          )}
+        </p>
       </div>
     </div>
   );

@@ -5,7 +5,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: var(--spacing-xl);
+  padding: var(--spacing-md);
   background-color: var(--color-cream);
 }
 
@@ -13,108 +13,298 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-xs);
-  margin-bottom: var(--spacing-xl);
+  margin-bottom: var(--spacing-md);
+  transition: transform 0.2s ease;
+}
+
+.logo:hover {
+  transform: scale(1.02);
 }
 
 .logoIcon {
-  font-size: 2rem;
+  margin: 0;
+  font-size: 1.25rem;
   font-weight: 700;
+  transform: scaleX(-1);
+
 }
 
 .logoText {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: var(--color-black);
 }
 
 .formCard {
   background-color: var(--color-cream-light);
-  padding: var(--spacing-xl);
+  padding: var(--spacing-lg);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
   width: 100%;
-  max-width: 400px;
+  max-width: 380px;
 }
 
-.title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: var(--spacing-lg);
+/* Tab Navigation */
+.tabContainer {
+  display: flex;
+  gap: var(--spacing-xs);
+  margin-bottom: var(--spacing-md);
+  background: rgba(0, 0, 0, 0.05);
+  padding: 4px;
+  border-radius: var(--radius-md);
+}
+
+.tab {
+  flex: 1;
+  padding: 8px var(--spacing-sm);
+  border: none;
+  background: transparent;
+  border-radius: var(--radius-sm);
+  font-size: 0.813rem;
+  font-weight: 500;
+  color: var(--color-gray);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tab:hover:not(.tabActive) {
   color: var(--color-black);
-  text-align: center;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.tabActive {
+  background: white;
+  color: var(--color-black);
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Styles */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.inputLabel {
+  font-size: 0.813rem;
+  font-weight: 500;
+  color: var(--color-black);
 }
 
 .inputField {
   width: 100%;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  padding: var(--spacing-md);
+  border: 1.5px solid rgba(0, 0, 0, 0.1);
+  padding: 10px 12px;
   display: block;
-  margin-bottom: var(--spacing-md);
   border-radius: var(--radius-md);
-  font-size: 1rem;
+  font-size: 0.938rem;
   background: white;
-  transition: border-color 0.2s;
+  transition: all 0.2s ease;
 }
 
 .inputField:focus {
   outline: none;
   border-color: var(--color-black);
+  box-shadow: 0 0 0 3px rgba(26, 26, 26, 0.08);
 }
 
 .inputField::placeholder {
   color: var(--color-gray-light);
 }
 
-.buttonGroup {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
-  margin-top: var(--spacing-lg);
+.inputField:disabled {
+  background: rgba(0, 0, 0, 0.03);
+  cursor: not-allowed;
 }
 
-.loginBtn {
+.inputError {
+  border-color: #e53935;
+}
+
+.inputError:focus {
+  border-color: #e53935;
+  box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.1);
+}
+
+/* Password Field */
+.passwordWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.passwordInput {
+  padding-right: 48px;
+}
+
+.passwordToggle {
+  position: absolute;
+  right: 12px;
+  padding: var(--spacing-xs);
+  background: transparent;
+  border: none;
+  color: var(--color-gray);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+}
+
+.passwordToggle:hover {
+  color: var(--color-black);
+}
+
+/* Error Messages */
+.errorMessage {
+  font-size: 0.75rem;
+  color: #e53935;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.generalError {
+  background: rgba(229, 57, 53, 0.08);
+  border: 1px solid rgba(229, 57, 53, 0.3);
+  color: #c62828;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  margin-bottom: var(--spacing-md);
+  text-align: center;
+}
+
+/* Forgot Password */
+.forgotPasswordWrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: calc(-1 * var(--spacing-xs));
+}
+
+.forgotPassword {
+  background: transparent;
+  border: none;
+  color: var(--color-gray);
+  font-size: 0.813rem;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  padding: 0;
+}
+
+.forgotPassword:hover {
+  color: var(--color-black);
+  text-decoration: underline;
+}
+
+/* Submit Button */
+.submitBtn {
   width: 100%;
   background-color: var(--color-black);
   color: white;
-  padding: var(--spacing-md);
+  padding: 12px;
   border: none;
   border-radius: var(--radius-md);
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.938rem;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
+  margin-top: var(--spacing-xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
 }
 
-.loginBtn:hover {
+.submitBtn:hover:not(:disabled) {
   background-color: #333;
   transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-.signupBtn {
-  width: 100%;
-  background-color: transparent;
+.submitBtn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.submitBtn:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.loadingBtn {
+  pointer-events: none;
+}
+
+/* Spinner Animation */
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Switch Prompt */
+.switchPrompt {
+  text-align: center;
+  margin-top: var(--spacing-md);
+  font-size: 0.813rem;
+  color: var(--color-gray);
+}
+
+.switchLink {
+  background: transparent;
+  border: none;
   color: var(--color-black);
-  padding: var(--spacing-md);
-  border: 2px solid var(--color-black);
-  border-radius: var(--radius-md);
   font-weight: 600;
-  font-size: 1rem;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
+  padding: 0;
 }
 
-.signupBtn:hover {
-  background-color: var(--color-black);
-  color: white;
+.switchLink:hover {
+  text-decoration: underline;
 }
 
 /* Responsive */
 @media (min-width: 640px) {
   .formCard {
-    padding: var(--spacing-2xl);
+    padding: var(--spacing-xl);
   }
 
-  .buttonGroup {
-    flex-direction: row;
+  .container {
+    padding: var(--spacing-lg);
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: var(--spacing-sm);
+  }
+
+  .formCard {
+    padding: var(--spacing-md);
+  }
+
+  .tabContainer {
+    flex-direction: column;
+  }
+
+  .tab {
+    width: 100%;
   }
 }
