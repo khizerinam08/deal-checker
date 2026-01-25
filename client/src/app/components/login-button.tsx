@@ -53,11 +53,41 @@ export function LoginButton() {
             // Clear the eater type cookie for privacy
             Cookies.remove('user_eater_size', { path: '/' });
 
-            // Try to sign out from Neon Auth (may fail in cross-origin scenarios)
+            // Get the current session to retrieve the token for explicit revocation
+            // This is needed for cross-origin scenarios where signOut alone may fail
+            try {
+                const session = await authClient.getSession({
+                    query: { disableCookieCache: true }
+                });
+
+                if (session?.data?.session?.token) {
+                    // Explicitly revoke this session using the token
+                    try {
+                        await authClient.revokeSession({
+                            token: session.data.session.token
+                        });
+                        console.log('Session revoked successfully');
+                    } catch (revokeError) {
+                        console.warn('Failed to revoke session:', revokeError);
+                    }
+                }
+
+                // Also try to revoke all sessions for this user
+                try {
+                    await authClient.revokeSessions();
+                    console.log('All sessions revoked');
+                } catch (revokeAllError) {
+                    console.warn('Failed to revoke all sessions:', revokeAllError);
+                }
+            } catch (sessionError) {
+                console.warn('Could not get session for revocation:', sessionError);
+            }
+
+            // Finally, try the standard signOut as a backup
             try {
                 await authClient.signOut();
             } catch (signOutError) {
-                console.warn('Neon Auth signOut failed (session may be cleared on server):', signOutError);
+                console.warn('Neon Auth signOut failed:', signOutError);
             }
 
             // Force a full page reload to ensure fresh session state
