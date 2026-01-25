@@ -21,9 +21,7 @@ import voteRoutes from './routes/vote.js';
 const app = express()
 app.use(cors({
   origin: [
-    'https://worth-it-one.vercel.app',  // Your main production domain
-    /^https:\/\/deal-checker.*\.vercel\.app$/,  // Matches ALL Vercel deployments (previews, branches, etc)
-    'http://localhost:3000'
+    'https://worth-it-two.vercel.app'
   ],
   credentials: true
 }));
