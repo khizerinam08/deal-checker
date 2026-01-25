@@ -1,8 +1,15 @@
 # 🍕 WorthIt - Find Foods Your Wallet Loves
 
+```text
+  _____  __        __         _   _     _ _   
+ |  __ \ \ \      / /__  _ __| |_| |__ | | |_ 
+  \ \     \ \ /\ / / _ \| '__| __| '_ \| | __|
+   |_|     \ V  V / (_) | |  | |_| | | | | |_ 
+   (_)      \_/\_/ \___/|_|   \__|_| |_|_|\__|
+```
+
 **WorthIt** is a crowd-sourced food deal evaluation platform that helps users discover whether fast-food deals are actually worth the money. Unlike traditional review systems driven by ads and marketing, WorthIt leverages community feedback to provide **personalized value scores** based on your appetite size.
 
-![WorthIt Landing Page](client/public/main-landing-page-image-1.png)
 
 ## 🎯 What It Does
 
