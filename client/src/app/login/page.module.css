@@ -280,6 +280,76 @@
   text-decoration: underline;
 }
 
+.switchLink:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Verification View */
+.verifyHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.backButton {
+  background: transparent;
+  border: none;
+  padding: var(--spacing-xs);
+  cursor: pointer;
+  color: var(--color-gray);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s ease;
+}
+
+.backButton:hover {
+  color: var(--color-black);
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.verifyTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-black);
+  margin: 0;
+}
+
+.verifyDescription {
+  font-size: 0.875rem;
+  color: var(--color-gray);
+  margin-bottom: var(--spacing-md);
+  line-height: 1.5;
+}
+
+.verifyDescription strong {
+  color: var(--color-black);
+  font-weight: 600;
+}
+
+.codeInput {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.5rem;
+  padding: 12px;
+}
+
+.codeInput::placeholder {
+  font-size: 0.938rem;
+  letter-spacing: normal;
+}
+
+.resendPrompt {
+  text-align: center;
+  margin-top: var(--spacing-md);
+  font-size: 0.813rem;
+  color: var(--color-gray);
+}
+
 /* Responsive */
 @media (min-width: 640px) {
   .formCard {

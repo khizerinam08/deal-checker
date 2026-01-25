@@ -2,7 +2,6 @@
 import { useState } from 'react';
 import { authClient } from '@/lib/auth';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import styles from './page.module.css';
 
 // --- Helper to check if a specific cookie exists ---
@@ -12,58 +11,73 @@ const getCookie = (name: string) => {
   return match ? match[2] : null;
 };
 
-type TabType = 'login' | 'signup';
+type ViewType = 'login' | 'signup' | 'verify';
 
 interface FormErrors {
   name?: string;
   email?: string;
   password?: string;
   confirmPassword?: string;
+  code?: string;
   general?: string;
 }
 
 export default function LoginPage() {
-  const [activeTab, setActiveTab] = useState<TabType>('login');
+  const [activeView, setActiveView] = useState<ViewType>('login');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [verificationCode, setVerificationCode] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<FormErrors>({});
   const router = useRouter();
 
-  // Clear errors when switching tabs
-  const handleTabChange = (tab: TabType) => {
-    setActiveTab(tab);
+  // Clear errors when switching views
+  const handleViewChange = (view: ViewType) => {
+    setActiveView(view);
     setErrors({});
+    if (view !== 'verify') {
+      setVerificationCode('');
+    }
   };
 
   // Validate form inputs
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
 
-    if (activeTab === 'signup' && !name.trim()) {
+    if (activeView === 'signup' && !name.trim()) {
       newErrors.name = 'Name is required';
     }
 
-    if (!email.trim()) {
-      newErrors.email = 'Email is required';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      newErrors.email = 'Please enter a valid email';
+    if (activeView !== 'verify') {
+      if (!email.trim()) {
+        newErrors.email = 'Email is required';
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        newErrors.email = 'Please enter a valid email';
+      }
+
+      if (!password) {
+        newErrors.password = 'Password is required';
+      } else if (password.length < 6) {
+        newErrors.password = 'Password must be at least 6 characters';
+      }
     }
 
-    if (!password) {
-      newErrors.password = 'Password is required';
-    } else if (password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters';
-    }
-
-    if (activeTab === 'signup') {
+    if (activeView === 'signup') {
       if (!confirmPassword) {
         newErrors.confirmPassword = 'Please confirm your password';
       } else if (password !== confirmPassword) {
         newErrors.confirmPassword = 'Passwords do not match';
+      }
+    }
+
+    if (activeView === 'verify') {
+      if (!verificationCode.trim()) {
+        newErrors.code = 'Verification code is required';
+      } else if (verificationCode.length !== 6) {
+        newErrors.code = 'Code must be 6 digits';
       }
     }
 
@@ -105,21 +119,89 @@ export default function LoginPage() {
     setErrors({});
 
     try {
+      // First create the account
       const { data, error } = await authClient.signUp.email({
         email,
         password,
         name: name.trim()
       });
+
+      if (error) {
+        setErrors({ general: error.message || "Signup failed. Please try again." });
+        return;
+      }
+
       if (data) {
-        try {
-          await handleEaterType(data);
-          router.push('/');
-        } catch (e) {
-          console.error("Sync error:", e);
+        // Account created, now send verification email
+        const { error: otpError } = await authClient.emailOtp.sendVerificationOtp({
+          email,
+          type: "email-verification"
+        });
+
+        if (otpError) {
+          setErrors({ general: otpError.message || "Failed to send verification code" });
+        } else {
+          // Move to verification view
+          setActiveView('verify');
+        }
+      }
+    } catch {
+      setErrors({ general: "An error occurred. Please try again." });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleVerifyCode = async () => {
+    if (!validateForm()) return;
+
+    setIsLoading(true);
+    setErrors({});
+
+    try {
+      // Verify the email with OTP
+      const { error } = await authClient.emailOtp.verifyEmail({
+        email,
+        otp: verificationCode
+      });
+
+      if (error) {
+        setErrors({ code: error.message || "Invalid verification code" });
+      } else {
+        // Email verified, get the current session
+        const session = await authClient.getSession();
+        if (session?.data) {
+          try {
+            await handleEaterType(session.data);
+            router.push('/');
+          } catch (e) {
+            console.error("Sync error:", e);
+            router.push('/');
+          }
+        } else {
+          // Session should exist after signup + verification, redirect anyway
           router.push('/');
         }
-      } else {
-        setErrors({ general: error?.message || "Signup failed. Please try again." });
+      }
+    } catch {
+      setErrors({ general: "An error occurred. Please try again." });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleResendCode = async () => {
+    setIsLoading(true);
+    setErrors({});
+
+    try {
+      const { error } = await authClient.emailOtp.sendVerificationOtp({
+        email,
+        type: "email-verification"
+      });
+
+      if (error) {
+        setErrors({ general: error.message || "Failed to resend code" });
       }
     } catch {
       setErrors({ general: "An error occurred. Please try again." });
@@ -140,7 +222,6 @@ export default function LoginPage() {
 
   const handleEaterType = async (sessionData: SessionData) => {
     console.log('[EaterType] Sending token:', sessionData?.token);
-    // Read cookie value and send in body (cross-origin cookies don't work reliably)
     const cookieEaterType = getCookie('user_eater_size');
     console.log('[EaterType] Cookie eaterType:', cookieEaterType);
 
@@ -171,32 +252,111 @@ export default function LoginPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (activeTab === 'login') {
+    if (activeView === 'login') {
       handleLogin();
-    } else {
+    } else if (activeView === 'signup') {
       handleSignUp();
+    } else {
+      handleVerifyCode();
     }
   };
 
+  // Verification Code View
+  if (activeView === 'verify') {
+    return (
+      <div className={styles.container}>
+        <div className={styles.formCard}>
+          <div className={styles.verifyHeader}>
+            <button
+              type="button"
+              className={styles.backButton}
+              onClick={() => handleViewChange('signup')}
+              aria-label="Go back"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M19 12H5M12 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <h2 className={styles.verifyTitle}>Verify Your Email</h2>
+          </div>
+
+          <p className={styles.verifyDescription}>
+            We&apos;ve sent a 6-digit code to <strong>{email}</strong>
+          </p>
+
+          {errors.general && (
+            <div className={styles.generalError}>
+              {errors.general}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className={styles.form}>
+            <div className={styles.inputGroup}>
+              <label htmlFor="code" className={styles.inputLabel}>
+                Verification Code
+              </label>
+              <input
+                id="code"
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                maxLength={6}
+                value={verificationCode}
+                onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, ''))}
+                placeholder="Enter 6-digit code"
+                className={`${styles.inputField} ${styles.codeInput} ${errors.code ? styles.inputError : ''}`}
+                disabled={isLoading}
+                autoComplete="one-time-code"
+              />
+              {errors.code && <span className={styles.errorMessage}>{errors.code}</span>}
+            </div>
+
+            <button
+              type="submit"
+              className={`${styles.submitBtn} ${isLoading ? styles.loadingBtn : ''}`}
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <span className={styles.spinner}></span>
+              ) : (
+                'Verify & Create Account'
+              )}
+            </button>
+          </form>
+
+          <p className={styles.resendPrompt}>
+            Didn&apos;t receive the code?{' '}
+            <button
+              type="button"
+              className={styles.switchLink}
+              onClick={handleResendCode}
+              disabled={isLoading}
+            >
+              Resend
+            </button>
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // Login / Signup View
   return (
     <div className={styles.container}>
-     
-
-      {/* Form Card */}
       <div className={styles.formCard}>
         {/* Tab Navigation */}
         <div className={styles.tabContainer}>
           <button
             type="button"
-            className={`${styles.tab} ${activeTab === 'login' ? styles.tabActive : ''}`}
-            onClick={() => handleTabChange('login')}
+            className={`${styles.tab} ${activeView === 'login' ? styles.tabActive : ''}`}
+            onClick={() => handleViewChange('login')}
           >
             Sign In
           </button>
           <button
             type="button"
-            className={`${styles.tab} ${activeTab === 'signup' ? styles.tabActive : ''}`}
-            onClick={() => handleTabChange('signup')}
+            className={`${styles.tab} ${activeView === 'signup' ? styles.tabActive : ''}`}
+            onClick={() => handleViewChange('signup')}
           >
             Create Account
           </button>
@@ -211,7 +371,7 @@ export default function LoginPage() {
 
         <form onSubmit={handleSubmit} className={styles.form}>
           {/* Name Field (Signup only) */}
-          {activeTab === 'signup' && (
+          {activeView === 'signup' && (
             <div className={styles.inputGroup}>
               <label htmlFor="name" className={styles.inputLabel}>
                 Full Name
@@ -284,7 +444,7 @@ export default function LoginPage() {
           </div>
 
           {/* Confirm Password Field (Signup only) */}
-          {activeTab === 'signup' && (
+          {activeView === 'signup' && (
             <div className={styles.inputGroup}>
               <label htmlFor="confirmPassword" className={styles.inputLabel}>
                 Confirm Password
@@ -303,7 +463,7 @@ export default function LoginPage() {
           )}
 
           {/* Forgot Password (Login only) */}
-          {activeTab === 'login' && (
+          {activeView === 'login' && (
             <div className={styles.forgotPasswordWrapper}>
               <button type="button" className={styles.forgotPassword}>
                 Forgot password?
@@ -320,24 +480,24 @@ export default function LoginPage() {
             {isLoading ? (
               <span className={styles.spinner}></span>
             ) : (
-              activeTab === 'login' ? 'Sign In' : 'Create Account'
+              activeView === 'login' ? 'Sign In' : 'Continue'
             )}
           </button>
         </form>
 
         {/* Switch Tab Prompt */}
         <p className={styles.switchPrompt}>
-          {activeTab === 'login' ? (
+          {activeView === 'login' ? (
             <>
               Don&apos;t have an account?{' '}
-              <button type="button" className={styles.switchLink} onClick={() => handleTabChange('signup')}>
+              <button type="button" className={styles.switchLink} onClick={() => handleViewChange('signup')}>
                 Create one
               </button>
             </>
           ) : (
             <>
               Already have an account?{' '}
-              <button type="button" className={styles.switchLink} onClick={() => handleTabChange('login')}>
+              <button type="button" className={styles.switchLink} onClick={() => handleViewChange('login')}>
                 Sign in
               </button>
             </>
