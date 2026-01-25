@@ -29,13 +29,12 @@ def save_to_db(deals_data):
         for deal in deals_data:
             # 3. Insert Parent Deal
             cur.execute("""
-                INSERT INTO deals (deal_name, price_pkr, description, satiety_score, satiety_tier, image_url, product_url, source)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                INSERT INTO deals (deal_name, price_pkr, description, image_url, product_url, source)
+                VALUES (%s, %s, %s, %s, %s, %s)
                 RETURNING id;
             """, (
                 deal['deal_name'], deal['price_pkr'], deal['description'],
-                deal['satiety_score'], deal['satiety_tier'], deal['image_url'],
-                deal['product_url'], deal['source']
+                deal['image_url'], deal['product_url'], deal['source']
             ))
             
             deal_id = cur.fetchone()[0]
@@ -43,11 +42,11 @@ def save_to_db(deals_data):
             # 4. Insert Child Items (Breakdown)
             if deal['items_breakdown']:
                 item_values = [
-                    (deal_id, item['item'], item['qty'], item['score'])
+                    (deal_id, item['item'], item['qty'])
                     for item in deal['items_breakdown']
                 ]
                 execute_values(cur, """
-                    INSERT INTO deal_items (deal_id, item, qty, score)
+                    INSERT INTO deal_items (deal_id, item, qty)
                     VALUES %s
                 """, item_values)
 
@@ -67,117 +66,83 @@ def save_to_db(deals_data):
 URL = "https://www.dominos.com.pk/menu"
 OUTPUT_FILE = "../../output-of-scrapers/Dominos/dominos_deals.json"
 
-# --- SATIETY SCORING SYSTEM ---
-# Base scores for individual items (Fuel Units)
-# These can be calibrated based on user feedback
-ITEM_SCORES = {
-    # Pizzas (by size)
-    "large_pizza": 40,      # A large pizza = 40 fuel units
-    "medium_pizza": 25,     # A medium pizza = 25 fuel units  
-    "small_pizza": 15,      # A small pizza = 15 fuel units
-    
-    # Other Items (to be calibrated by user)
-    "meltz": 12,            # Placeholder - user to provide
-    "pizza_roll": 12,       # Placeholder - user to provide
-    "loaded_pizza_roll": 12,# Placeholder - user to provide
-    "side": 8,              # Generic side item
-    "wings_6pcs": 12,       # 6 piece wings
-    "wings_4pcs": 8,        # 4 piece wings
-    "kickers_6pcs": 10,     # Chicken kickers
-    "strips_4pcs": 10,      # Chicken strips
-    "dessert": 5,           # Lava cake, etc.
-    "drink_small": 2,       # Small drink
-    "drink_1.5l": 4,        # 1.5L drink (sharing)
+# --- ITEM TYPES (for breakdown categorization) ---
+ITEM_PATTERNS = {
+    "large_pizza": r'(\d+)?\s*large\s*(?:classic\s*)?pizza',
+    "medium_pizza": r'(\d+)?\s*medium\s*(?:classic\s*)?pizza',
+    "small_pizza": r'(\d+)?\s*small\s*pizza',
+    "loaded_pizza_roll": r'loaded\s*pizza\s*roll',
+    "pizza_roll": r'pizza\s*roll',
+    "meltz": r'meltz',
+    "wings_6pcs": r'(\d+)\s*(?:pcs?\s*)?wings',
+    "side": r'(\d+)?\s*side',
+    "drink_1.5l": r'1\.5.*(?:ltr|liter)',
+    "drink_small": r'drink',
+    "dessert": r'(?:lava\s*cake|cake|dessert)',
 }
 
-def extract_items_and_score(title, description):
+def extract_items_breakdown(title, description):
     """
-    Uses regex to extract quantities and item types from deal text.
-    Returns: (total_score, items_breakdown, tier)
+    Extracts items from deal text for categorization (without scoring).
+    Returns: items_breakdown list
     """
     text = (title + " " + description).lower()
     items_found = []
-    total_score = 0
     
-    # --- PIZZA EXTRACTION ---
-    # Pattern: "X Large Pizza" or "Large Pizza" (default qty = 1)
+    # Check for large pizza
     large_match = re.findall(r'(\d+)?\s*large\s*(?:classic\s*)?pizza', text)
     for match in large_match:
         qty = int(match) if match else 1
-        items_found.append({"item": "large_pizza", "qty": qty, "score": qty * ITEM_SCORES["large_pizza"]})
-        total_score += qty * ITEM_SCORES["large_pizza"]
+        items_found.append({"item": "large_pizza", "qty": qty})
     
+    # Check for medium pizza
     medium_match = re.findall(r'(\d+)?\s*medium\s*(?:classic\s*)?pizza', text)
     for match in medium_match:
         qty = int(match) if match else 1
-        items_found.append({"item": "medium_pizza", "qty": qty, "score": qty * ITEM_SCORES["medium_pizza"]})
-        total_score += qty * ITEM_SCORES["medium_pizza"]
+        items_found.append({"item": "medium_pizza", "qty": qty})
     
+    # Check for small pizza
     small_match = re.findall(r'(\d+)?\s*small\s*pizza', text)
     for match in small_match:
         qty = int(match) if match else 1
-        items_found.append({"item": "small_pizza", "qty": qty, "score": qty * ITEM_SCORES["small_pizza"]})
-        total_score += qty * ITEM_SCORES["small_pizza"]
+        items_found.append({"item": "small_pizza", "qty": qty})
     
-    # --- LOADED PIZZA ROLL ---
+    # Check for loaded pizza roll
     if "loaded pizza roll" in text:
-        roll_match = re.findall(r'(\d+)?\s*(?:loaded\s*)?pizza\s*roll', text)
-        qty = int(roll_match[0]) if roll_match and roll_match[0] else 1
-        items_found.append({"item": "loaded_pizza_roll", "qty": qty, "score": qty * ITEM_SCORES["loaded_pizza_roll"]})
-        total_score += qty * ITEM_SCORES["loaded_pizza_roll"]
+        items_found.append({"item": "loaded_pizza_roll", "qty": 1})
     elif "pizza roll" in text:
-        roll_match = re.findall(r'(\d+)?\s*pizza\s*roll', text)
-        qty = int(roll_match[0]) if roll_match and roll_match[0] else 1
-        items_found.append({"item": "pizza_roll", "qty": qty, "score": qty * ITEM_SCORES["pizza_roll"]})
-        total_score += qty * ITEM_SCORES["pizza_roll"]
+        items_found.append({"item": "pizza_roll", "qty": 1})
     
-    # --- MELTZ ---
+    # Check for meltz
     if "meltz" in text:
-        items_found.append({"item": "meltz", "qty": 1, "score": ITEM_SCORES["meltz"]})
-        total_score += ITEM_SCORES["meltz"]
+        items_found.append({"item": "meltz", "qty": 1})
     
-    # --- WINGS ---
+    # Check for wings
     wings_match = re.findall(r'(\d+)\s*(?:pcs?\s*)?wings', text)
     if wings_match:
         qty = int(wings_match[0])
-        if qty >= 6:
-            items_found.append({"item": "wings_6pcs", "qty": qty // 6, "score": (qty // 6) * ITEM_SCORES["wings_6pcs"]})
-            total_score += (qty // 6) * ITEM_SCORES["wings_6pcs"]
-        else:
-            items_found.append({"item": "wings_4pcs", "qty": 1, "score": ITEM_SCORES["wings_4pcs"]})
-            total_score += ITEM_SCORES["wings_4pcs"]
+        items_found.append({"item": "wings_6pcs", "qty": max(1, qty // 6)})
     
-    # --- SIDES (generic) ---
+    # Check for sides
     sides_match = re.findall(r'(\d+)?\s*side', text)
     for match in sides_match:
         qty = int(match) if match else 1
-        items_found.append({"item": "side", "qty": qty, "score": qty * ITEM_SCORES["side"]})
-        total_score += qty * ITEM_SCORES["side"]
+        items_found.append({"item": "side", "qty": qty})
     
-    # --- DRINKS ---
+    # Check for drinks
     if "1.5" in text and ("ltr" in text or "liter" in text):
-        items_found.append({"item": "drink_1.5l", "qty": 1, "score": ITEM_SCORES["drink_1.5l"]})
-        total_score += ITEM_SCORES["drink_1.5l"]
+        items_found.append({"item": "drink_1.5l", "qty": 1})
     elif "drink" in text:
         drink_match = re.findall(r'(\d+)?\s*(?:small\s*)?drink', text)
         qty = int(drink_match[0]) if drink_match and drink_match[0] else 1
-        items_found.append({"item": "drink_small", "qty": qty, "score": qty * ITEM_SCORES["drink_small"]})
-        total_score += qty * ITEM_SCORES["drink_small"]
+        items_found.append({"item": "drink_small", "qty": qty})
     
-    # --- DESSERT (lava cake, etc.) ---
+    # Check for dessert
     if "lava cake" in text or "cake" in text or "dessert" in text:
-        items_found.append({"item": "dessert", "qty": 1, "score": ITEM_SCORES["dessert"]})
-        total_score += ITEM_SCORES["dessert"]
+        items_found.append({"item": "dessert", "qty": 1})
     
-    # --- TIERING ---
-    if total_score >= 30:
-        tier = "Heavy Meal (Sharing)"
-    elif total_score >= 15:
-        tier = "Standard Meal"
-    else:
-        tier = "Snack / Light"
-    
-    return total_score, items_found, tier
+    return items_found
+
 
 # --- MAIN SCRAPER ---
 def scrape_dominos():
@@ -185,6 +150,8 @@ def scrape_dominos():
     options = webdriver.ChromeOptions()
     options.add_argument("--headless") 
     
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
     
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
     
@@ -291,27 +258,25 @@ def scrape_dominos():
                     continue
                 unique_deals.add(deal_id)
 
-                # Extract satiety score and items breakdown
-                satiety_score, items_breakdown, satiety_tier = extract_items_and_score(title, description)
+                # Extract items breakdown (for categorization only)
+                items_breakdown = extract_items_breakdown(title, description)
                 
                 # Construct full product URL from href
                 product_url = f"{URL}{href}" if href else None
 
-                # Apply Schema with enhanced satiety data
+                # Apply Schema (without satiety scoring)
                 deal_obj = {
                     "deal_name": title,
                     "price_pkr": clean_price,
                     "description": description,
-                    "satiety_score": satiety_score,          # Raw fuel units score
-                    "items_breakdown": items_breakdown,       # List of extracted items with individual scores
-                    "satiety_tier": satiety_tier,             # Human-readable tier
+                    "items_breakdown": items_breakdown,  # List of extracted items
                     "image_url": image_url,
-                    "product_url": product_url,               # Link to the deal on Dominos website
+                    "product_url": product_url,          # Link to the deal on Dominos website
                     "source": "Dominos PK"
                 }
                 
                 deals_data.append(deal_obj)
-                print(f"Found: {title} - {clean_price} PKR ({deal_obj['satiety_tier']})")
+                print(f"Found: {title} - {clean_price} PKR")
 
             except Exception as e:
                 continue # Skip broken items

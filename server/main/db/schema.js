@@ -71,8 +71,6 @@ export const deals = pgTable('deals', {
   dealName: text('deal_name').notNull(),
   pricePkr: integer('price_pkr').notNull(),
   description: text('description'),
-  satietyScore: integer('satiety_score'),
-  satietyTier: varchar('satiety_tier', { length: 50 }).notNull(), // Snack, Standard, Heavy
 
   // The average of all "Was it worth it?" votes (Scale 0-10)
   baseValueScore: real('base_value_score').default(0),
@@ -93,7 +91,6 @@ export const dealItems = pgTable('deal_items', {
   dealId: integer('deal_id').references(() => deals.id, { onDelete: 'cascade' }),
   item: foodItemEnum('item').notNull(),
   qty: integer('qty').notNull().default(1),
-  score: integer('score').notNull(),
 });
 
 // 4. Define Relations (Optional but helpful for queries)

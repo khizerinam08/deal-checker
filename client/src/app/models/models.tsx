@@ -14,7 +14,6 @@ type FoodItemType =
 export interface ItemBreakdown {
   item: FoodItemType; // Now it MUST be one of the names above
   qty: number;
-  score: number;
 }
 
 export interface PizzaDeal {
@@ -22,9 +21,7 @@ export interface PizzaDeal {
   dealName: string;
   pricePkr: number;
   description: string;
-  satietyScore: number;
   items_breakdown: ItemBreakdown[];
-  satietyTier: "Snack / Light" | "Standard Meal" | "Heavy Meal (Sharing)";
   imageUrl: string | null;
   productUrl: string;
   source: string;
