@@ -11,6 +11,7 @@ export function LoginButton() {
     const [isOpen, setIsOpen] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    const [isLoggingOut, setIsLoggingOut] = useState(false);
     const pathName = usePathname();
 
     // Check auth state on mount
@@ -36,7 +37,11 @@ export function LoginButton() {
     };
 
     const handleLogout = async () => {
+        // Prevent multiple clicks while logging out
+        if (isLoggingOut) return;
+
         try {
+            setIsLoggingOut(true);
             // Clear local state immediately before async operations
             setIsLoggedIn(false);
             setIsOpen(false);
@@ -51,10 +56,16 @@ export function LoginButton() {
                 console.warn('Neon Auth signOut failed (session may be cleared on server):', signOutError);
             }
 
-            // Redirect to home page - this will trigger a fresh session check
-            window.location.href = '/';
+            // Force a full page reload to ensure fresh session state
+            // If already on home page, reload. Otherwise, navigate to home.
+            if (window.location.pathname === '/') {
+                window.location.reload();
+            } else {
+                window.location.href = '/';
+            }
         } catch (error) {
             console.error('Logout failed:', error);
+            setIsLoggingOut(false);
             // Force redirect anyway
             window.location.href = '/';
         }
@@ -95,6 +106,8 @@ export function LoginButton() {
                 <div className={styles.dropdown}>
                     {isLoading ? (
                         <span className={styles.menuItem}>Loading...</span>
+                    ) : isLoggingOut ? (
+                        <span className={styles.menuItem}>Logging out...</span>
                     ) : isLoggedIn ? (
                         <button onClick={handleLogout} className={styles.menuItem}>
                             Log Out
