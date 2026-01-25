@@ -1,17 +1,23 @@
-# 🍕 WorthIt - Find Foods Your Wallet Loves
+# WorthIt - Find Foods Your Wallet Loves
+
+<div align="center">
 
 ```text
-  _____  __        __         _   _     _ _   
- |  __ \ \ \      / /__  _ __| |_| |__ | | |_ 
-  \ \     \ \ /\ / / _ \| '__| __| '_ \| | __|
-   |_|     \ V  V / (_) | |  | |_| | | | | |_ 
-   (_)      \_/\_/ \___/|_|   \__|_| |_|_|\__|
+╔══════════════════════════════════════════════════════════╗
+║    _____  __        __         _   _     _ _             ║
+║   |  ___\ \ \      / /__  _ __| |_| |__ | | |_           ║
+║    \ \     \ \ /\ / / _ \| '__| __| '_ \| | __|          ║
+║     |_|     \ V  V / (_) | |  | |_| | | | | |_           ║
+║     (_)      \_/\_/ \___/|_|   \__|_| |_|_|\__|          ║
+╚══════════════════════════════════════════════════════════╝
 ```
+
+</div>
 
 **WorthIt** is a crowd-sourced food deal evaluation platform that helps users discover whether fast-food deals are actually worth the money. Unlike traditional review systems driven by ads and marketing, WorthIt leverages community feedback to provide **personalized value scores** based on your appetite size.
 
 
-## 🎯 What It Does
+## What It Does
 
 WorthIt solves a common problem: *"Is this deal actually good value for ME?"*
 
@@ -31,7 +37,7 @@ Traditional deal ratings don't account for individual appetite differences. A de
 
 ---
 
-## 🛠️ How It Works
+## How It Works
 
 ### 1. User Onboarding
 When a user first visits, they select their "eater type":
@@ -72,7 +78,7 @@ This ensures:
 ---
 
 
-## 💻 Technologies Used
+## Technologies Used
 
 ### Frontend
 | Technology | Purpose |
