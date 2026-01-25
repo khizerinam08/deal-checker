@@ -64,7 +64,11 @@ def save_to_db(deals_data):
 
 # --- CONFIGURATION ---
 URL = "https://www.dominos.com.pk/menu"
-OUTPUT_FILE = "../../output-of-scrapers/Dominos/dominos_deals.json"
+# Use absolute path based on script location
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+OUTPUT_FILE = os.path.join(SCRIPT_DIR, "../../output-of-scrapers/Dominos/dominos_deals.json")
+# Ensure output directory exists
+os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
 
 # --- ITEM TYPES (for breakdown categorization) ---
 ITEM_PATTERNS = {
