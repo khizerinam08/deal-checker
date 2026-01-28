@@ -2,8 +2,8 @@ name: Daily Dominos Scraper
 
 on:
   schedule:
-    # Runs at 00:00 UTC every day
-    - cron: '15 10 * * *'
+    # Runs at 12:45 UTC every day
+    - cron: '45 12 * * *'
   # Allows you to run this manually from the Actions tab for testing
   workflow_dispatch:
 
