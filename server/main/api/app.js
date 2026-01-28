@@ -22,6 +22,7 @@ const app = express()
 app.use(cors({
   origin: [
     'https://worth-it-one.vercel.app',
+    'http://localhost:3000', // Local development
   ],
   credentials: true
 }));
