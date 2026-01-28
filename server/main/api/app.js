@@ -4,19 +4,19 @@ import { dirname, join } from 'path'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
-dotenv.config({ path: join(__dirname, '../.env') })
+dotenv.config({ path: join(__dirname, '../../.env') })
 
-import Dominos_Deals from './domino-deals.js'
+import Dominos_Deals from '../domino-deals.js'
 import express from 'express'
-import { db } from './db/db.js'
-import { deals, votes } from './db/schema.js'
+import { db } from '../db/db.js'
+import { deals, votes } from '../db/schema.js'
 import { asc, eq } from 'drizzle-orm'
 import cors from 'cors'
 import cookieParser from 'cookie-parser';
 
 // Import routes
-import eaterTypeRoutes from './routes/eatertype.js';
-import voteRoutes from './routes/vote.js';
+import eaterTypeRoutes from '../routes/eatertype.js';
+import voteRoutes from '../routes/vote.js';
 
 const app = express()
 app.use(cors({
@@ -149,3 +149,4 @@ app.listen(port, () => {
 })
 
 
+module.exports = app;
