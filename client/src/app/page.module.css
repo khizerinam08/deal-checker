@@ -777,12 +777,29 @@
 
   .heroTitle {
     font-size: 1.75rem;
+    /* Reduced from 1.75rem */
     padding: 0 var(--spacing-md);
+  }
+
+  .ctaButton {
+    padding: var(--spacing-xs) var(--spacing-lg);
+    font-size: 0.775rem;
   }
 
   .hero {
     padding-top: 80px;
-    min-height: 80vh;
+    min-height: 50vh;
+    /* Reduced from 80vh to make hero smaller on mobile */
+  }
+
+  .heroImage {
+    object-position: center center;
+    /* Adjust image positioning for mobile */
+  }
+
+  .heroContent {
+    gap: var(--spacing-sm);
+    /* Tighter spacing on mobile */
   }
 
 
@@ -791,10 +808,65 @@
     padding: var(--spacing-xl) var(--spacing-md);
   }
 
+  .howItWorksGrid {
+    align-items: flex-start;
+    /* Left-align content */
+    padding-left: var(--spacing-md);
+    padding-right: var(--spacing-md);
+  }
+
+  .cardWrapper {
+    align-items: center;
+    /* Center cards (moves them right from left edge) */
+  }
+
+  .cardTitle {
+    text-align: left;
+    white-space: nowrap;
+    /* Keep title on single line */
+  }
+
   .stepCard,
   .dealPreview,
   .reviewPreview {
     transform: none;
+  }
+
+  /* Vendors Section - Mobile */
+  .vendors {
+    align-items: center;
+    /* Center entire section */
+    padding: var(--spacing-xl) var(--spacing-md);
+  }
+
+  .vendorsHeader {
+    justify-content: center;
+    /* Center header */
+  }
+
+  .vendorsTitle {
+    font-size: 2rem;
+    /* Smaller title (from 3.5rem) */
+  }
+
+  .vendorArrowLeft,
+  .vendorArrowRight {
+    width: 50px;
+    /* Smaller arrows */
+  }
+
+  .vendorCard {
+    padding: var(--spacing-md);
+  }
+
+  .vendorLogo {
+    width: 160px;
+    /* Reduced from 240px */
+    height: 160px;
+  }
+
+  .vendorName {
+    font-size: 0.875rem;
   }
 
   .watermarkIcon,
@@ -802,7 +874,48 @@
     font-size: 5rem;
   }
 
+  /* Footer - 60% visible from top, centered */
   .footer {
+    justify-content: center;
+    /* Center horizontally */
+    align-items: flex-start;
+    /* Align to top so bottom gets cut off */
     padding: var(--spacing-xl);
+    max-height: 7rem;
+    /* Show ~60% from top, cut 40% from bottom */
+    overflow: hidden;
+  }
+}
+
+/* Spinner Styles */
+.spinnerWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  width: 240px;
+  height: 240px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: var(--color-black);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.spinnerText {
+  font-size: 0.875rem;
+  color: var(--color-gray);
+  text-align: center;
+  animation: pulse 2s infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }

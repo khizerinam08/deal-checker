@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import styles from "../page.module.css";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { AnimatedSection } from "./AnimatedSection";
 
 interface LandingPageClientProps {
@@ -11,6 +12,9 @@ interface LandingPageClientProps {
 }
 
 export function LandingPageClient({ navbar }: LandingPageClientProps) {
+    const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter();
+
     const scrollToVendors = (e: React.MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault();
         const vendorsSection = document.getElementById("vendors");
@@ -182,15 +186,34 @@ export function LandingPageClient({ navbar }: LandingPageClientProps) {
                 </AnimatedSection>
 
                 <AnimatedSection animation="scaleIn" delay={200}>
-                    <Link href="/dominos-deals" className={styles.vendorCard}>
-                        <Image
-                            src="/5bd84c2b7ef57e7bf4b668b69fce25bc47004897.png"
-                            alt="Domino's Pizza"
-                            width={240}
-                            height={240}
-                            className={styles.vendorLogo}
-                        />
-                        <span className={styles.vendorName}>Domino&apos;s</span>
+                    <Link
+                        href="/dominos-deals"
+                        className={styles.vendorCard}
+                        onClick={(e) => {
+                            // If we want to show a spinner, we can just set state.
+                            // The navigation will proceed.
+                            if (!isLoading) {
+                                setIsLoading(true);
+                            }
+                        }}
+                    >
+                        {isLoading ? (
+                            <div className={styles.spinnerWrapper}>
+                                <div className={styles.spinner}></div>
+                                <p className={styles.spinnerText}>This might take a while...</p>
+                            </div>
+                        ) : (
+                            <>
+                                <Image
+                                    src="/5bd84c2b7ef57e7bf4b668b69fce25bc47004897.png"
+                                    alt="Domino's Pizza"
+                                    width={240}
+                                    height={240}
+                                    className={styles.vendorLogo}
+                                />
+                                <span className={styles.vendorName}>Domino&apos;s</span>
+                            </>
+                        )}
                     </Link>
                 </AnimatedSection>
             </section>
