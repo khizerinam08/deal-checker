@@ -87,7 +87,7 @@ export function LandingPageClient({ navbar }: LandingPageClientProps) {
                                 Determine your eater type!
                             </h3>
                             <Image
-                                src="/d59dedb6438b59ec8687f96a015e1e8008b838b6.svg"
+                                src="/card1.png"
                                 alt="Determine your eater type"
                                 width={326}
                                 height={367}
@@ -120,7 +120,7 @@ export function LandingPageClient({ navbar }: LandingPageClientProps) {
                                 Add reviews!
                             </h3>
                             <Image
-                                src="/add-reviews.svg"
+                                src="/card3.png"
                                 alt="Add reviews"
                                 width={339}
                                 height={291}
@@ -151,7 +151,7 @@ export function LandingPageClient({ navbar }: LandingPageClientProps) {
                                 Is it worth the money?
                             </h3>
                             <Image
-                                src="/699218a76d449556ed6308e9cc8c14089cb08843.svg"
+                                src="/card2.png"
                                 alt="Is it worth the money?"
                                 width={352}
                                 height={431}
