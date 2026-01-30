@@ -53,7 +53,7 @@ export function LandingPageClient({ navbar }: LandingPageClientProps) {
             <section className={styles.hero}>
                 <div className={styles.heroBackground}>
                     <Image
-                        src="/main-landing-page-image-1.png"
+                        src="/main-landing-page-image-1.webp"
                         alt="Balance scale with pizza and money"
                         fill
                         priority
@@ -87,11 +87,12 @@ export function LandingPageClient({ navbar }: LandingPageClientProps) {
                                 Determine your eater type!
                             </h3>
                             <Image
-                                src="/card1.png"
+                                src="/card1.webp"
                                 alt="Determine your eater type"
                                 width={326}
                                 height={367}
                                 unoptimized
+                                loading="lazy"
                                 className={`${styles.cardSvg} ${styles.cardTiltLeft} ${styles.cardOneImage}`}
                             />
                         </div>
@@ -105,6 +106,7 @@ export function LandingPageClient({ navbar }: LandingPageClientProps) {
                             width={300}
                             height={209}
                             unoptimized
+                            loading="lazy"
                             className={`${styles.arrowSvg} ${styles.arrowTiltFirst}`}
                         />
                     </AnimatedSection>
@@ -120,11 +122,12 @@ export function LandingPageClient({ navbar }: LandingPageClientProps) {
                                 Add reviews!
                             </h3>
                             <Image
-                                src="/card3.png"
+                                src="/card3.webp"
                                 alt="Add reviews"
                                 width={339}
                                 height={291}
                                 unoptimized
+                                loading="lazy"
                                 className={`${styles.cardSvg} ${styles.cardTiltLeft} ${styles.addReviews}`}
                             />
                         </div>
@@ -138,6 +141,7 @@ export function LandingPageClient({ navbar }: LandingPageClientProps) {
                             width={363}
                             height={199}
                             unoptimized
+                            loading="lazy"
                             className={`${styles.arrowSvg} ${styles.arrowFlipped}`}
                         />
                     </AnimatedSection>
@@ -151,11 +155,12 @@ export function LandingPageClient({ navbar }: LandingPageClientProps) {
                                 Is it worth the money?
                             </h3>
                             <Image
-                                src="/card2.png"
+                                src="/card2.webp"
                                 alt="Is it worth the money?"
                                 width={352}
                                 height={431}
                                 unoptimized
+                                loading="lazy"
                                 className={`${styles.cardSvg} ${styles.cardTiltRight}`}
                             />
                         </div>
@@ -172,6 +177,7 @@ export function LandingPageClient({ navbar }: LandingPageClientProps) {
                         width={100}
                         height={60}
                         unoptimized
+                        loading="lazy"
                         className={styles.vendorArrowLeft}
                     />
                     <h2 className={styles.vendorsTitle}>Vendors</h2>
@@ -181,6 +187,7 @@ export function LandingPageClient({ navbar }: LandingPageClientProps) {
                         width={100}
                         height={60}
                         unoptimized
+                        loading="lazy"
                         className={styles.vendorArrowRight}
                     />
                 </AnimatedSection>
@@ -209,6 +216,7 @@ export function LandingPageClient({ navbar }: LandingPageClientProps) {
                                     alt="Domino's Pizza"
                                     width={240}
                                     height={240}
+                                    loading="lazy"
                                     className={styles.vendorLogo}
                                 />
                                 <span className={styles.vendorName}>Domino&apos;s</span>
